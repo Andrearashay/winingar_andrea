@@ -1781,10 +1781,33 @@ summary {
   bind_cols( %&gt;%&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zYyAlPiUgXG4gIGdyb3VwX2J5KGRhdGFzZXQpICU+JSBcbiAgc3VtbWFyaXplKFxuICAgIG1lYW5feCA9IG1lYW4oeCksXG4gICAgc3RkZXZfeCA9IHNkKHgpLFxuICAgIG1lYW5feSA9IG1lYW4oeSksXG4gICAgc3RkZXZfeSA9IHNkKHkpXG4gIClcblxuYGBgIn0= -->
+<pre class="r"><code>ansc %&gt;% 
+  group_by(dataset) %&gt;% 
+  summarize(
+    mean_x = mean(x),
+    stdev_x = sd(x),
+    mean_y = mean(y),
+    stdev_y = sd(y)
+  )
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCB1bmdyb3VwaW5nIG91dHB1dCAob3ZlcnJpZGUgd2l0aCBgLmdyb3Vwc2AgYXJndW1lbnQpXG4ifQ== -->
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NCwibmNvbCI6NX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWUdKZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R29Bd25pSzRBcWhJR01rQnFCSUNZQlNaaENHTVl3UmpHTUlZSmtPQURxWFZRWWdBRFhEUmNIVmRIMGVTLytTYTRhTGc2T1laM0FYeFBHWkZvaUhsUVBsd2RnOE95MDlXNnVrRDZxcjFzOWlvSEJqdS9YZk11aFFEcCtaK0N2djVIOHlSclhtSnVhakhVZzZ4UVFmYVV4SkxFNHRRU0tKY3ROelV4TDc0Q0psbGNrcEphQnVkQ0pDdFJKU3ZSYk9Fc3lpL1hnOW5FQzhSTURVRGkvLy8vZjlDZGs1eVRXQXh6RGt5UUMrUWN2YlFpb0g0Zzd4K2FGdmI4Z3BMTS9EeWdKaWJreUlMSFloR2FBSDlwSHNnbEtickpHYVY1MmJwR0lBdkEwaERBQzJXeklMRlpJVll5L1VjTEo3YlV2UFRNdkZTWTIzTVNrMUp6b0J3K29JL0JIdFlyS01yTWc0VWtGMUMwV0s4a3Z5UVJwbzRyT1Q4SEpnTDJHOE0vQU5ITEp6U2tBZ0FBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["dataset"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean_x"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["stdev_x"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["mean_y"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["stdev_y"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"9","3":"3.316625","4":"7.500909","5":"2.031568"},{"1":"2","2":"9","3":"3.316625","4":"7.500909","5":"2.031657"},{"1":"3","2":"9","3":"3.316625","4":"7.500000","5":"2.030424"},{"1":"4","2":"9","3":"3.316625","4":"7.500909","5":"2.030579"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[4]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkhvbWV3b3JrIDAzIFIgTWFya2Rvd24iDQphdXRob3I6ICJBbmRyZWEgV2luaW5nYXIiDQpkYXRhOiAiYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiAlWScpYCINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KZWRpdG9yX29wdGlvbnM6IA0KICBjaHVua19vdXRwdXRfdHlwZTogaW5saW5lDQotLS0NCmBgYHtyfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpgYGANCmBgYHtyfQ0KYW5zY29tYmUNCmBgYA0KYGBge3J9DQphbnNjIDwtDQogIGJpbmRfY29scygNCiAgICBhbnNjb21iZSAlPiUgDQogICAgICBzZWxlY3QobWF0Y2hlcygieCIpKSAlPiUgDQogICAgICBnYXRoZXIoZGF0YXNldCwgIngiKSwNCiAgICBhbnNjb21iZSAlPiUgDQogICAgICBzZWxlY3QobWF0Y2hlcygieSIpKSAlPiUgDQogICAgICBnYXRoZXIoa2V5LCAieSIpDQogICkgJT4lDQogIHNlbGVjdCgta2V5KSAlPiUgDQogIG11dGF0ZShkYXRhc2V0ID0gZ3N1YigieCIsICIiLCBkYXRhc2V0KSkgJT4lICANCiAgYXNfdGliYmxlKCkNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkhvbWV3b3JrIDAzIFIgTWFya2Rvd24iDQphdXRob3I6ICJBbmRyZWEgV2luaW5nYXIiDQpkYXRhOiAiYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiAlWScpYCINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KZWRpdG9yX29wdGlvbnM6IA0KICBjaHVua19vdXRwdXRfdHlwZTogaW5saW5lDQotLS0NCmBgYHtyfQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpgYGANCmBgYHtyfQ0KYW5zY29tYmUNCmBgYA0KYGBge3J9DQphbnNjIDwtDQogIGJpbmRfY29scygNCiAgICBhbnNjb21iZSAlPiUgDQogICAgICBzZWxlY3QobWF0Y2hlcygieCIpKSAlPiUgDQogICAgICBnYXRoZXIoZGF0YXNldCwgIngiKSwNCiAgICBhbnNjb21iZSAlPiUgDQogICAgICBzZWxlY3QobWF0Y2hlcygieSIpKSAlPiUgDQogICAgICBnYXRoZXIoa2V5LCAieSIpDQogICkgJT4lDQogIHNlbGVjdCgta2V5KSAlPiUgDQogIG11dGF0ZShkYXRhc2V0ID0gZ3N1YigieCIsICIiLCBkYXRhc2V0KSkgJT4lICANCiAgYXNfdGliYmxlKCkNCmBgYA0KYGBge3J9DQphbnNjICU+JSANCiAgZ3JvdXBfYnkoZGF0YXNldCkgJT4lIA0KICBzdW1tYXJpemUoDQogICAgbWVhbl94ID0gbWVhbih4KSwNCiAgICBzdGRldl94ID0gc2QoeCksDQogICAgbWVhbl95ID0gbWVhbih5KSwNCiAgICBzdGRldl95ID0gc2QoeSkNCiAgKQ0KYGBgDQoNCg==</div>
 
 
 
