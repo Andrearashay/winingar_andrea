@@ -80,5 +80,9 @@ summary(trees_lm)
 ```{r}
 xtable(trees_lm) %>% kable()
 ```
+\[\chi_c^2 = \Sigma\frac{(O_i - E_i)^2}{E_i}\]
+This is for a footnote.[^1]
 
 
+
+[^1]: Here is my footnote.
