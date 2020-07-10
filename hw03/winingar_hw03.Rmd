@@ -59,5 +59,26 @@ kable(head(airquality),
       align = c("r", "r", "c", "l", "l"),
       col.names = c("Ozone (ppb)", "Solar R (lang)", "Wind (mph)", "Temp (°F)", "Month", "Day"))
 ```
+```{r}
+head(chickwts)
+```
+```{r}
+chicks_lm <- lm(weight ~ feed, data = chickwts)
+summary(chicks_lm)
+```
+```{r}
+kable(chicks_lm)
+# This resulted in an error because "chicks_lm" is not a table persay but different calculated values of the comparison between weight and feed.
+```
+```{r}
+head(trees)
+```
+```{r}
+trees_lm <- lm(Girth ~ Height, data = trees)
+summary(trees_lm)
+```
+```{r}
+xtable(trees_lm) %>% kable()
+```
 
 
