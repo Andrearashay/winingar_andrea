@@ -32,3 +32,36 @@ ggplot(data = trees) +
 
 The larger the Height of the tree, the larger the girth of the tree is. 
 
+#### Plot 2
+
+Make a vector.
+
+```{r}
+year <- c(1821:1934)
+```
+
+Look at class() of 'lynx' dataset.
+
+```{r}
+class(lynx)
+```
+
+Change lynx from 'ts' to a vector.
+
+```{r}
+pelts <- as.vector(lynx)
+```
+
+Make a dataframe with the vectors.
+
+```{r}
+lynx_pelts <- data.frame('year' = 1821:1934, 'pelts' = as.vector(lynx)) 
+```
+
+Make the line graph plot.
+
+```{r}
+ggplot(data = lynx_pelts) +
+  geom_line(mapping = aes(x = year, y = pelts), color = "maroon")
+```
+
