@@ -1,0 +1,34 @@
+---
+title: "HW05: Data Visulaization"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+# First Things firt, load the Tidyverse.
+
+```{r}
+library('tidyverse')
+```
+
+#### Plot 1
+
+Load the dataset.
+
+```{r}
+data(trees)
+?trees
+```
+
+
+Now to create the scatterplot.
+
+```{r}
+ggplot(data = trees) +
+  geom_point(mapping = aes(x = Height, y = Girth))
+```
+
+The larger the Height of the tree, the larger the girth of the tree is. 
+
