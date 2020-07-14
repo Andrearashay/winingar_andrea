@@ -85,3 +85,30 @@ ggplot(data = iris) +
 
 ```
 
+Each species is seperate from the others, they are bunched together. If the petal is longer, it is also wider.
+
+#### Plots 4 and 5
+
+Load the dataset
+
+```{r}
+data("msleep")
+```
+
+This code chunk is Plot 4.
+
+```{r}
+ggplot(data = msleep) +
+  geom_violin(mapping = aes(x = vore, y = sleep_rem), fill = "gray30")
+```
+
+This plot varies, some of the vore's have lower ranges of sleep_rem and the others have their range in higer sleep_rem.
+
+This code chunk is plot 5.
+
+```{r}
+ggplot(data = msleep) +
+  geom_violin(mapping = aes(x = vore, y = sleep_rem), fill = "gray70")
+```
+
+This is the same as the other violin plot but a different gray. The violin plot shows the same as box plot does with median and interquartile ranges, but violin plots also shows the full distribution of data.
