@@ -65,3 +65,23 @@ ggplot(data = lynx_pelts) +
   geom_line(mapping = aes(x = year, y = pelts), color = "maroon")
 ```
 
+The graph is kind of wavey. It goes up and down a lot.
+
+#### Plot 3
+
+load the dataset irirs.
+
+```{r}
+data("iris")
+?iris
+```
+
+Make the scatterplot
+
+```{r}
+ggplot(data = iris) +
+  geom_point(mapping = aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species), size = 2) + 
+  labs(x = 'Petal Length', y = 'Petal Width')
+
+```
+
