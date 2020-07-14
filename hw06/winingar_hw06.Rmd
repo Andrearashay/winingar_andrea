@@ -150,7 +150,7 @@ Answer the questions *completely.* Use code chunks, text, or both, as necessary.
 
 **1:** How can you tell if an object is a tibble? (Hint: try printing `mtcars`, which is a regular data frame). Identify at least two ways to tell if an object is a tibble. *Hint:* What does `as_tibble()` do? What does `class()` do? What does `str()` do?
 
-
+Tibble has a default printing setting to show only the first 10 rows unless instructed otherwise. Whereas a regular dataframe shows all rows.Tibble also does not change the type of inputs, the names of variables, and never creates row names. 
 
 **2:** Compare and contrast the following operations on a data.frame and equivalent tibble. What is different? Why might the default data frame behaviours cause you frustration?
 
@@ -161,6 +161,7 @@ df[, "xyz"]
 df[, c("abc", "xyz")]
 ```
 
+This dataframe doesn't use backticks (`) like tibble to refer to variables. This can cause issues with recognizing the variables.Tibble also enters each variable on a seperate line, rather than just one line fore all like dataframe. 
 
 ## Chapter 11: Importing data
 
