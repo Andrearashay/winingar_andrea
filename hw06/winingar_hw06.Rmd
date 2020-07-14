@@ -77,6 +77,70 @@ Enter your code chunks for Section 10.2 here.
 
 Describe what each chunk code does. 
 
+This code chnk shows tibbles print method that only shows first 10 rows, with the columns that fit on screen.
+
+```{r}
+tibble(
+  a = lubridate::now() + runif(1e3) * 86400,
+  b = lubridate::today() + runif(1e3) * 30,
+  c = 1:1e3,
+  d = runif(1e3),
+  e = sample(letters, 1e3, replace = TRUE)
+)
+```
+
+This code chunk shows how to control the rows and columns shown from default in tibble.
+
+```{r}
+nycflights13::flights %>% 
+  print(n = 10, width = Inf)
+```
+
+This code chunk uses Rstudios built ikn data viewer.
+
+```{r}
+nycflights13::flights %>% 
+  View()
+```
+
+This code chunk assigns information to a variable df.
+
+```{r}
+df <- tibble(
+  x = runif(5),
+  y = rnorm(5)
+)
+```
+
+This code chunk manipulates df to extract a variable from it by name.
+
+```{r}
+df$x
+```
+
+This code chunk does the same as above but a different method.
+
+```{r}
+df[['x']]
+```
+
+This code chunk extracts by position.
+
+```{r}
+df[[1]]
+```
+
+This code chunk shows the by name again but in a pipe with '.' placeholder.
+
+```{r}
+df %>% .$x
+```
+
+This code chunk is same as above but other method.
+
+```{r}
+df %>% .[['x']]
+```
 
 ### 10.4: Not required
 
