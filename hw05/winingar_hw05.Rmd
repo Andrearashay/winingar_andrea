@@ -129,3 +129,18 @@ ggplot(data = msleep) +
 
 There are not any patterns really, some have large ranges and others hardly at all. They are also all over the place.
 
+#### Plot 8
+
+Dataset is already loaded so this is Plot 8.
+
+```{r}
+ggplot(data = msleep, mapping = aes(x = conservation, y = awake, color = conservation)) +
+  geom_boxplot() +
+  geom_point() +
+  geom_jitter() +
+  coord_flip() +
+  labs(x = 'Conservation', y = 'Awake') +
+  scale_color_discrete('Conservation')
+```
+
+This data does not have much of a pattern, although all but one have a awake range between 5 to 20 hours.
