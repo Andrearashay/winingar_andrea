@@ -177,24 +177,67 @@ Do *not* run the first code chunk of this section, which begins with `heights <-
 
 Enter and run the remaining chunks in this section.
 
+this code chunk runs read_csv, which reads comma delimited files. It prints out a column specification that gives the name and type of each column. 
+
+```{r}
+read_csv("a,b,c
+1,2,3
+4,5,6")
+```
+
+This code chunk shows how to use skip = n, to skip first n lines.
+
+```{r}
+read_csv("The first line of metadata
+  The second line of metadata
+  x,y,z
+  1,2,3", skip = 2)
+```
+
+This code chunks shows how use comment = '#' to skip a comment after "3".
+
+```{r}
+read_csv("# A comment I want to skip
+  x,y,z
+  1,2,3", comment = "#")
+```
+
+This cod chunk shows how to use col_names, when you dont use column names.
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = FALSE)
+```
+
+This code chunk shows how to give col_names a vector for the column names.
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = c("x", "y", "z"))
+```
+
+This code chunk shows how to use na for missing values.
+
+```{r}
+read_csv("a,b,c\n1,2,.", na = ".")
+```
 
 #### 11.2 Questions
 
 **1:** What function would you use to read a file where fields were separated with "|"?
 
-
+read_delim()
 
 **2:** (This question is modified from the text.) Finish the two lines of `read_delim` code so that the first one would read a comma-separated file and the second would read a tab-separated file. You only need to worry about the delimiter. Do not worry about other arguments. Replace the dots in each line with the rest of your code. 
 
 # Comma-separated
-`file <- read_delim("file.csv", ...)`
+`file <- read_delim("file.csv", delim = ",")`
 
 # Tab-separated
-`file <- read_delim("file.csv", ...)`
+`file <- read_delim("file.csv", delim = "   ")`
 
 
 **3:** What are the two most important arguments to `read_fwf()`? Why?
 
+File, because it has to have data, and col_positions, because this is a needed argument to seperate the data.
 
 **4:** Skip this question
 
@@ -208,6 +251,8 @@ read_csv("a,b\n\"1")
 read_csv("a,b\n1,2\na,b")
 read_csv("a;b\n1;3")
 ```
+
+Line 1 does not have a third column name, when ran the third column is not shown at all. Line 2 is missing a value in the first line of data and there is an extra in second, when ran the first row last column has na and the fourth value in second row of data is not shown. Line 3 is missing both values for first row of data and on for second row of data, when ran there is only one row of data and the second value is na. Line 4 needs to have the last row a an b in "" since they are not numbers and are letters for values instead, when ran the second row of data is shown as a and b. Line 5 is using ; as the seperator or it should be :, i am not sure which, without indicating so, when ran it shows a'b as the column title, and 1;3 as the data.
 
 ### 11.3 and 11.4: Not required
 
