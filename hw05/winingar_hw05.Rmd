@@ -144,3 +144,22 @@ ggplot(data = msleep, mapping = aes(x = conservation, y = awake, color = conserv
 ```
 
 This data does not have much of a pattern, although all but one have a awake range between 5 to 20 hours.
+
+#### Plot 9
+
+```{r}
+ggplot(data = msleep) +
+  geom_point(mapping = aes(x = awake, y = bodywt, color = conservation)) +
+  facet_wrap(~ vore, nrow = 2)
+```
+
+carni and herbi are the only two with individuals with a body weight more than 500 and they have a large varying amount on awake. The otehr three are more together in awake rather than all over.
+
+#### Plot 10
+
+```{r}
+ggplot(data = msleep) +
+  geom_point(mapping = aes(x = awake, y = brainwt, color = vore))
+```
+
+It appears as those who have a larger brain weight are higher in awake time.the herbi and omni have higher brain weight than the other vores. 
