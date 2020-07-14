@@ -112,3 +112,20 @@ ggplot(data = msleep) +
 ```
 
 This is the same as the other violin plot but a different gray. The violin plot shows the same as box plot does with median and interquartile ranges, but violin plots also shows the full distribution of data.
+
+#### Plot 6
+
+Is not here.
+
+#### Plot 7
+
+Data is already loaded from last plots, so here is plot 7.
+
+```{r}
+ggplot(data = msleep) +
+  geom_boxplot(mapping = aes(x = order, y = sleep_total)) +
+  coord_flip()
+```
+
+There are not any patterns really, some have large ranges and others hardly at all. They are also all over the place.
+
