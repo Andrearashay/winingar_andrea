@@ -77,7 +77,7 @@ Enter your code chunks for Section 10.2 here.
 
 Describe what each chunk code does. 
 
-This code chnk shows tibbles print method that only shows first 10 rows, with the columns that fit on screen.
+This code chunk shows tibbles print method that only shows first 10 rows, with the columns that fit on screen.
 
 ```{r}
 tibble(
@@ -288,13 +288,37 @@ You do not have to run any of the examples in this section.
 
 Read and run the examples through section 12.3.1 (gathering), including the example with `left_join()`. We'll cover joins later.
 
+This code chunk tidy's the table4a dataset,
+
+```{r}
+table4a %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+Using pivot_longer() to tidy table4b.
+
+```{r}
+table4b %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+```
+
+This code chunk combines table4a and table4b.
+
+```{r}
+tidy4a <- table4a %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+tidy4b <- table4b %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+left_join(tidy4a, tidy4b)
+```
+
 #### 12.3 Questions
 
 **2:** Why does this code fail? Fix it so it works.
 
 ```{r}
 table4a %>% 
-  gather(1999, 2000, key = "year", value = "cases")
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
 #> Error in inds_combine(.vars, ind_list): Position must be between 0 and n
 ```
 
@@ -311,83 +335,373 @@ Time to [get small.](https://www.youtube.com/watch?v=GOrdzCHnpw4)
 
 Load the necessary libraries. As usual, type the examples into and run the code chunks.
 
+Load the libraries.
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+
 ### 5.2: Filter rows with `filter()`
 
 Study Figure 5.1 carefully. Once you learn the `&`, `|`, and `!` logic, you will find them to be very powerful tools.
+
+This chunk selects all flights on january 1st usinmg filter()
+
+```{r}
+filter(flights, month == 1, day == 1)
+```
+
+This code chunk saves the result above.
+
+```{r}
+jan1 <- filter(flights, month == 1, day == 1)
+```
+
+This code chunk saves and prints out results.
+
+```{r}
+(dec25 <- filter(flights, month == 12, day == 25))
+```
+
+This code chunk shows the error of using = instead of ==.
+
+```{r}
+filter(flights, month = 1)
+```
+
+This code chunk shows the errors of floatingpoint numbers.
+
+```{r}
+sqrt(2) ^ 2 == 2
+```
+
+This code chunk has same purpose as above.
+
+```{r}
+1 / 49 * 49 == 1
+```
+
+This code chunk shows how to use near().
+
+```{r}
+near(sqrt(2) ^ 2,  2)
+```
+
+This chunk has same purpose as above.
+
+```{r}
+near(1 / 49 * 49, 1)
+```
+
+This code chunk finds all flights departed in November or December.
+
+```{r}
+filter(flights, month == 11 | month == 12)
+```
+
+This code chunk does the same as above but a shorter method, and assigns it to a name.
+
+```{r}
+nov_dec <- filter(flights, month %in% c(11, 12))
+```
+
+This code chunk shows fligths that weren't delayed for more than 2 hours.
+
+```{r}
+filter(flights, !(arr_delay > 120 | dep_delay > 120))
+```
+
+This chunk does sames as above but another ,ethod.
+
+```{r}
+filter(flights, arr_delay <= 120, dep_delay <= 120)
+```
+
+The next code chunk shows how a code involving na will be na.
+
+```{r}
+NA > 5
+```
+
+This does same as above.
+
+```{r}
+10 == NA
+```
+
+This also does same as above.
+
+```{r}
+NA + 10
+```
+
+This does same as above.
+
+```{r}
+NA / 2
+```
+
+This is same as above.
+
+```{r}
+NA == NA
+```
+
+This code chunk is start of an example. x is mary's age, which is unknown.
+
+```{r}
+x <- NA
+```
+
+SAme as example above, y is John's age, also unknown.
+
+```{r}
+y <- NA
+```
+
+This is final part of above example to show why NA == NA is false.
+
+```{r}
+y == x
+```
+
+This code chunk shows how to tell if a varaible is missing.
+
+```{r}
+is.na(x)
+```
+
+This shows how to preserve missing values, the next three show this.
+
+```{r}
+df <- tibble(x = c(1, NA, 3))
+```
+
+Example for above.
+
+```{r}
+filter(df, x > 1)
+```
+
+Example for above as well.
+
+```{r}
+filter(df, is.na(x) | x > 1)
+```
 
 
 #### 5.2 Questions
 
 **1.1:** Find all flights with a delay of 2 hours or more.
 
+```{r}
+filter(flights, arr_delay >= 120, dep_delay >= 120)
+```
+
 
 **1.2:** Flew to Houston (IAH or HOU)
 
+```{r}
+filter(flights, dest == 'IAH' | dest == 'HOU')
+```
 
 **1.3:** Were operated by United (UA), American (AA), or Delta (DL).
 
+```{r}
+filter(flights, carrier == 'UA' | carrier == 'AA' | carrier == 'DL')
+```
 
 **1.4:** Departed in summer (July, August, and September).
 
+```{r}
+filter(flights, month  == 7 | month == 8 | month == 9)
+```
 
 **1.5:** Arrived more than two hours late, but didn’t leave late.
 
+```{r}
+filter(flights, arr_delay > 120 & dep_delay == 0)
+```
+
 **1.6:** Were delayed by at least an hour, but made up over 30 minutes in flight. This is a tricky one. Do your best.
+
+```{r}
+filter(flights, dep_delay >= 60 & arr_delay >= 30)
+```
 
 
 **1.7:** Departed between midnight and 6am (inclusive)
 
+```{r}
+filter(flights, dep_time > 0000 & dep_time < 600)
+```
+
 
 **2:** Another useful dplyr filtering helper is `between()`. What does it do? Can you use it to simplify the code needed to answer the previous challenges?
 
+between() is a shortcut for determining if values in a numeric vector fall in a specific range. Yes you could use this to make codes above simplier.
 
 **3:** How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
 
+```{r}
+
+```
 
 **4:** Why is `NA ^ 0` not missing? Why is `NA | TRUE` not missing? Why is `FALSE & NA` not missing? Can you figure out the general rule? (`NA * 0` is a tricky counterexample!)
+
+'NA ^ 0' is not missing because any number ^ 0 is equal to one. 'NA | TRUE' is not missing because NA is going to show FALSE and considering all things are either TRUE or FALSE and this statement includes both it is not missing. ' FALSE & NA' is not missing because both equal FALSE.
 
 **Note:** For some context, see [this thread](https://blog.revolutionanalytics.com/2016/07/understanding-na-in-r.html)
 
 
 ### 5.3 Arrange with `arrange()`
 
+This code chunk shows how to use arange() to change order of columns
+
+```{r}
+arrange(flights, year, month, day)
+```
+
+This code chunk shows how to use desc() to re-order a column by descending order.
+
+```{r}
+arrange(flights, desc(dep_delay))
+```
+
+This code chunk shows missing values sorted at the end.
+
+```{r}
+df <- tibble(x = c(5, 2, NA))
+```
+
+This is part of above.
+
+```{r}
+arrange(df, x)
+```
+
+Also, part of above.
+
+```{r}
+arrange(df, desc(x))
+```
+
 
 #### 5.3 Questions
 
 **1:** How could you use `arrange()` to sort all missing values to the start? (Hint: use is.na()). **Note:** This one should still have the earliest departure dates after the `NA`s. *Hint:* What does `desc()` do?
+
+```{r}
+arrange(flights, desc(year, month, day, is.na(year, month,day)))
+```
 
 
 **2:** Sort flights to find the most delayed flights. Find the flights that left earliest. 
 
 This question is asking for the flights that were most delayed (left latest after scheduled departure time) and least delayed (left ahead of scheduled time).
 
+This code chunk shows Flights most delayed.
+
+```{r}
+arrange(flights, desc(dep_delay))
+```
+
+This code chunk shows flights least delayed.
+
+```{r}
+arrange(flights, -desc(dep_delay))
+```
+
 
 **3:** Sort flights to find the fastest flights. Interpret fastest to mean shortest time in the air.
 
+```{r}
+arrange(flights, -desc(flight))
+```
 
 *Optional challenge:* fastest flight could refer to fastest air speed. Speed is measured in miles per hour but time is minutes. Arrange the data by fastest air speed.
 
 
 **4:** Which flights travelled the longest? Which travelled the shortest?
 
+Flights longest
+
+```{r}
+arrange(flights, desc(flight))
+```
+
+traveled shortest
+
+```{r}
+arrange(flights, -desc(flight))
+```
+
 
 ### 5.4 Select columns with `select()`
+
+This code chunk shows how to only show certain columns from flights.
+
+```{r}
+select(flights, year, month, day)
+```
+
+Does same as above.
+
+```{r}
+select(flights, year:day)
+```
+
+This chunk shows how to not show columns from flights.
+
+```{r}
+select(flights, -(year:day))
+```
+
+this code chunk shows how to rename variables.
+
+```{r}
+rename(flights, tail_num = tailnum)
+```
+
+This code chunk shows how to move variables to the start of the dataframe.
+
+```{r}
+select(flights, time_hour, air_time, everything())
+```
 
 #### 5.4 Questions
 
 **1:** Brainstorm as many ways as possible to select `dep_time`, `dep_delay`, `arr_time`, and `arr_delay` from flights. Find at least three ways.
 
+```{r}
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+```
+
+```{r}
+select(flights, 
+```
+
 
 **2:** What happens if you include the name of a variable multiple times in a `select()` call?
 
+```{r}
+select(flights, dep_time, dep_time, arr_time, dep_time)
+```
 
+Nothing shows up when you run the code.
 
 **3:** What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
 
 `vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
 
-
+one_of() lets you select variables using a character vector of their names instead of putting their names into the select() call. If you are wanting this vector, you can use one_of() with some of variables to pull up the whole vector.
 
 **4:** Does the result of running the following code surprise you? How do the select helpers deal with case by default? How can you change that default?
 
-`select(flights, contains("TIME"))`
+select(flights, contains("TIME"))
+
+```{r}
+select(flights, contains("TIME"))
+```
