@@ -546,8 +546,10 @@ between() is a shortcut for determining if values in a numeric vector fall in a 
 **3:** How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
 
 ```{r}
-
+filter(flights, is.na(dep_time))
 ```
+
+With the other rows that have 'NA' I would guess that these flights were canceled. There is no arr_delay, arr_time, dep_delay, dep_time. 
 
 **4:** Why is `NA ^ 0` not missing? Why is `NA | TRUE` not missing? Why is `FALSE & NA` not missing? Can you figure out the general rule? (`NA * 0` is a tricky counterexample!)
 
@@ -618,7 +620,7 @@ arrange(flights, -desc(dep_delay))
 **3:** Sort flights to find the fastest flights. Interpret fastest to mean shortest time in the air.
 
 ```{r}
-arrange(flights, -desc(flight))
+arrange(flights, -desc(air_time))
 ```
 
 *Optional challenge:* fastest flight could refer to fastest air speed. Speed is measured in miles per hour but time is minutes. Arrange the data by fastest air speed.
@@ -679,8 +681,16 @@ select(flights, time_hour, air_time, everything())
 select(flights, dep_time, dep_delay, arr_time, arr_delay)
 ```
 
+Way 2
+
 ```{r}
-select(flights, 
+select(flights, starts_with('DEP'), starts_with('ARR'))
+```
+
+Way 3
+
+```{r}
+select(flights, dep_time:arr_delay, -(sched_dep_time), -(sched_arr_time))
 ```
 
 
@@ -690,11 +700,22 @@ select(flights,
 select(flights, dep_time, dep_time, arr_time, dep_time)
 ```
 
-Nothing shows up when you run the code.
+The duplicate variable doesn't affect anything, the variable is shown once along with any other variables listed.
 
 **3:** What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
 
 `vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
+
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+```
+
+
+```{r}
+select(flights, one_of(vars))
+```
+
+This helps by allowing you to pull up the vars vector in select rather than type out all the variables.
 
 one_of() lets you select variables using a character vector of their names instead of putting their names into the select() call. If you are wanting this vector, you can use one_of() with some of variables to pull up the whole vector.
 
@@ -705,3 +726,5 @@ select(flights, contains("TIME"))
 ```{r}
 select(flights, contains("TIME"))
 ```
+
+Yes it does surprise me, because "TIME" is in capital letters, i wouldn't think it would have worked to find these variables. The helpers still found the time containing variables regardless of the capital letter in the search. 
