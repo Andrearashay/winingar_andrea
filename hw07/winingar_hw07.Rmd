@@ -1,0 +1,19 @@
+---
+title: "HW07: Data Importing and Wrangling 1"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+Load the tidyverse, as always.
+
+```{r}
+library(tidyverse)
+file_path <- "C:/Documents/BI485/winingar_andrea/data"
+```
+
+
+
+
