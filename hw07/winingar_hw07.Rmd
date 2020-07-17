@@ -11,9 +11,15 @@ Load the tidyverse, as always.
 
 ```{r}
 library(tidyverse)
-file_path <- "C:/Documents/BI485/winingar_andrea/data"
+file_path <- "C:/Documents/BI485/winingar_andrea/data/data/"
 ```
 
 
+### Limpets
 
+This code chunk loads limpet file path.
+
+```{r}
+limpets_data <- read_csv(file.path(file_path, "limpets.csv"))
+```
 
