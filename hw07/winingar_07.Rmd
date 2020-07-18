@@ -1,5 +1,5 @@
 ---
-title: "HW07: Data Importing and Wrangling 1"
+title: "HW 07: Data Importing and Wrangling I"
 author: "Andrea Winingar"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: html_notebook
@@ -7,17 +7,12 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Load the tidyverse, as always.
+Load the packages and make link to data.
 
 ```{r}
 library(tidyverse)
-file_path <- "C:/Documents/BI485/winingar_andrea/data/data/"
+file_path <- "../data"
 ```
-
-
-### Limpets
-
-This code chunk loads limpet file path.
 
 ```{r}
 limpets_data <- read_csv(file.path(file_path, "limpets.csv"))
