@@ -43,3 +43,54 @@ ggplot(data = limpets_data) +
 ```
 
 DP and WP have outliers. The protected sites have larger limpets than nonprotected sites.The protected sites also have a larger box range. 
+
+### Roseate Terns
+
+Load the data.
+
+```{r}
+roseate_data <- read.csv("roseate_terns.txt")
+```
+
+The data is not tidy.
+
+Use filter to remove sites with missing counts.
+
+```{r}
+filter(roseate_data, )
+```
+
+
+
+### Blacklip Abalone
+
+Chunk 1:  Import, remove the first column, then make a boxplot of height differences among the three types.
+
+```{r}
+abalone_data <- read_csv('abalone.csv')
+select(abalone_data, -('X1'))
+abalone_data %>% 
+  ggplot() +
+  geom_boxplot(mapping = aes(x = Type, y = Height))
+```
+Chunk 2: scatterplot to see if height appears to correlate with rings. 
+
+```{r}
+abalone_data %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Rings, y = Height))
+```
+
+Height correlates to Rings to an extent, but no enough to explain or cause the outliers.
+
+Chunk 3:
+
+```{r}
+
+```
+
+
+
+### Darters
+
+
