@@ -114,6 +114,16 @@ abalone_filtered %>%
 
 Immatures are generally smaller, males and females are mixed together without either being distinguishably smaller or larger. There are some male and females that are smaller than the immatures.
 
+Chunk 4: print records of those with zero height and change to NA. then replot.
+
+```{r}
+abalone_filtered[abalone_filtered$Height == 0, 'Height'] <- NA
+abalone_filtered %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Rings, y = Height, color = Type))
+```
+
+
 ### Darters
 
 
