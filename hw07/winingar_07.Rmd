@@ -11,13 +11,13 @@ Load the packages and make link to data.
 
 ```{r}
 library(tidyverse)
-file_path <- "../data"
+library(here)
 ```
 
 ### Limpets
 
 ```{r}
-limpets_data <- read_csv("limpets.csv")
+limpets_data <- read_csv(here('data','limpets.csv'))
 ```
 
 The data is tidy.
@@ -49,15 +49,30 @@ DP and WP have outliers. The protected sites have larger limpets than nonprotect
 Load the data.
 
 ```{r}
-roseate_data <- read.csv("roseate_terns.txt")
+roseate_data <- read.csv(here("data", "roseate_terns.txt"))
 ```
 
-The data is not tidy.
+The data is not tidy. This next code chunk will tidy it.
+
+```{r}
+roseate_tidy <- roseate_data %>% 
+  pivot_longer(`AR`:`JC`,
+               names_to = "Site",
+               values_to = "Population")
+```
 
 Use filter to remove sites with missing counts.
 
 ```{r}
-filter(roseate_data, )
+filter(drop_na(roseate_tidy))
+```
+
+Make Lineplot of pop size over time.
+
+```{r}
+roseate_tidy %>% 
+  ggplot() +
+  geom_line(mapping = aes(x = population, y = year))
 ```
 
 
@@ -73,6 +88,9 @@ abalone_data %>%
   ggplot() +
   geom_boxplot(mapping = aes(x = Type, y = Height))
 ```
+
+There are two outliers, one in the F and one in M.
+
 Chunk 2: scatterplot to see if height appears to correlate with rings. 
 
 ```{r}
@@ -83,10 +101,14 @@ abalone_data %>%
 
 Height correlates to Rings to an extent, but no enough to explain or cause the outliers.
 
-Chunk 3:
+Chunk 3:remove outlier by filtering. Make Type an ordered factor. Redo scatterplot.
 
 ```{r}
-
+filter(abalone_data, Height < 0.4)
+factor(abalone_data$Type, level = 'I', 'F', 'M')
+abalone_data %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Rings, y = Height))
 ```
 
 
