@@ -49,7 +49,7 @@ DP and WP have outliers. The protected sites have larger limpets than nonprotect
 Load the data.
 
 ```{r}
-roseate_data <- read.csv(here("data", "roseate_terns.txt"))
+roseate_data <- read_tsv(here("data", "roseate_terns.txt"))
 ```
 
 The data is not tidy. This next code chunk will tidy it.
@@ -67,15 +67,16 @@ Use filter to remove sites with missing counts.
 filter(drop_na(roseate_tidy))
 ```
 
-Make Lineplot of pop size over time.
+Make Lineplot of pop size over time.    
 
 ```{r}
 roseate_tidy %>% 
   ggplot() +
-  geom_line(mapping = aes(x = population, y = year))
+  geom_line(mapping = aes(x = year, y = Population, color = Site)) +
+  labs(x = 'Year', y = 'Population')
 ```
 
-
+Sites BC, JC, AR all increased in population, AR increased the most dramatically. JR, BR both decreased drastically and all others did not have any significant changes. The non continuos ones could be caused by the population being NA and was removed.
 
 ### Blacklip Abalone
 
