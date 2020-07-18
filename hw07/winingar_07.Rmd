@@ -34,5 +34,12 @@ Factor Site column.
 factor(limpets_data$Site, levels = c('PBL', 'KNRM', 'VBG', 'WP', 'PF', 'DP', 'SIO', 'CTZ1', 'CTZ2', 'CNM'))
 ```
 
+Boxplot of limpets_data
 
+```{r}
+ggplot(data = limpets_data) +
+  geom_boxplot(mapping = aes(x = Site, y = Length, color = Protected)) +
+  labs(x = "Site", y = "Length (mm)")
+```
 
+DP and WP have outliers. The protected sites have larger limpets than nonprotected sites.The protected sites also have a larger box range. 
