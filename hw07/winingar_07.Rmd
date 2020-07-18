@@ -82,7 +82,7 @@ roseate_tidy %>%
 Chunk 1:  Import, remove the first column, then make a boxplot of height differences among the three types.
 
 ```{r}
-abalone_data <- read_csv('abalone.csv')
+abalone_data <- read_csv(here('data', 'abalone.csv'))
 select(abalone_data, -('X1'))
 abalone_data %>% 
   ggplot() +
@@ -104,7 +104,7 @@ Height correlates to Rings to an extent, but no enough to explain or cause the o
 Chunk 3:remove outlier by filtering. Make Type an ordered factor. Redo scatterplot.
 
 ```{r}
-filter(abalone_data, Height < 0.4)
+filter(abalone_data, Height <= 0.4)
 factor(abalone_data$Type, level = 'I', 'F', 'M')
 abalone_data %>% 
   ggplot() +
