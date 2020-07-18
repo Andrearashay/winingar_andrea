@@ -138,4 +138,45 @@ The first scatterplot shows a relation of Immatures typically having the smalles
 
 ### Darters
 
+Load the data.
+
+```{r}
+darters_data <- read_fwf(here('data', 'darter.txt'), fwf_widths(c(3, 11, 1, 1, 1, 3, 4, 4, 4, 3, 3, 2, 2)), comment = '#')
+```
+
+Chunk 1: Make column titles, make riffle an unordered factor, and make major_type an ordered factor.
+
+```{r}
+darter_renamed <- darters_data %>% 
+  rename(
+    ID = X1,
+    Species = X2,
+    Riffle = X3,
+    Age = X4,
+    Sex = X5,
+    Length = X6,
+    Depth = X7,
+    Velocity = X8,
+    Temperature = X9,
+    Maj_Sub = X10,
+    Min_Sub = X11,
+    Maj_Type = X12,
+    Min_Type = X13
+  )
+factor(darter_renamed$Riffle, levels = c('1', '2'))
+factor(darter_renamed$Maj_Type, levels = c('s', 'fg', 'sg', 'lg', 'c'), ordered = TRUE)
+```
+
+Chunk 2: Use filter to remove zonale and tetrazonum. Remove columns min_sub and min_type. Rename maj_sub and maj_type. arrange by id.
+
+```{r}
+darter_renamed %>% 
+  filter(Species == blennioides | Species == caeruleum | Species == spectabile) %>% 
+  select('ID':'Maj_Sub', 'Maj_Type') %>% 
+  rename(
+    major_substrate = Maj_Sub,
+    major_type = Maj_Type) %>% 
+  arrange(ID)
+```
+
 
