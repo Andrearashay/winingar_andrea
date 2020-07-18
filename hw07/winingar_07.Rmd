@@ -105,14 +105,14 @@ Height correlates to Rings to an extent, but no enough to explain or cause the o
 Chunk 3:remove outlier by filtering. Make Type an ordered factor. Redo scatterplot.
 
 ```{r}
-filter(abalone_data, Height <= 0.4)
-factor(abalone_data$Type, level = 'I', 'F', 'M')
-abalone_data %>% 
+abalone_filtered <- filter(abalone_data, Height <= 0.4)
+factor(abalone_filtered$Type, level = 'I', 'F', 'M')
+abalone_filtered %>% 
   ggplot() +
-  geom_point(mapping = aes(x = Rings, y = Height))
+  geom_point(mapping = aes(x = Rings, y = Height, color = Type))
 ```
 
-
+Immatures are generally smaller, males and females are mixed together without either being distinguishably smaller or larger. There are some male and females that are smaller than the immatures.
 
 ### Darters
 
