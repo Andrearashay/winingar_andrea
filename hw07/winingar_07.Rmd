@@ -123,6 +123,18 @@ abalone_filtered %>%
   geom_point(mapping = aes(x = Rings, y = Height, color = Type))
 ```
 
+Chunk 5: Make two scatterplots of choice.
+
+```{r}
+abalone_filtered %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Diameter, y = Height, color = Type))
+abalone_filtered %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = Rings, y = Diameter, color = Type))
+```
+
+The first scatterplot shows a relation of Immatures typically having the smallest diameter, then males and females are mixed together. Also, the larger the diameter the taller. The second scatterplot shows immature having the smallest diameter and fewest rings with a few males mixed in with them. The more rings, the larger the diameter.
 
 ### Darters
 
