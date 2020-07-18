@@ -14,7 +14,25 @@ library(tidyverse)
 file_path <- "../data"
 ```
 
+### Limpets
+
 ```{r}
-limpets_data <- read_csv(file.path(file_path, "limpets.csv"))
+limpets_data <- read_csv("limpets.csv")
 ```
+
+The data is tidy.
+
+using col_types argument.
+
+```{r}
+limpets_data <- read_csv("limpets.csv", col_types = "ncc")
+```
+
+Factor Site column.
+
+```{r}
+factor(limpets_data$Site, levels = c('PBL', 'KNRM', 'VBG', 'WP', 'PF', 'DP', 'SIO', 'CTZ1', 'CTZ2', 'CNM'))
+```
+
+
 
