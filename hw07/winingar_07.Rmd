@@ -190,3 +190,13 @@ darter_renamed %>%
 
 Riffle 2 has longer variables and riffle one has higher depths.
 
+Plot 2: boxplot
+
+```{r}
+darter_renamed %>% 
+  ggplot() +
+  geom_boxplot(mapping = aes(x = Species, y = Length)) +
+  facet_wrap(~ Riffle, nrow = 1)
+```
+
+Riffle two has several outliers, 
