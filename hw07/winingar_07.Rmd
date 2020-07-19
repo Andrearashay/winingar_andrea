@@ -171,7 +171,7 @@ Chunk 2: Use filter to remove zonale and tetrazonum. Remove columns min_sub and 
 
 ```{r}
 darter_renamed %>% 
-  filter(Species == blennioides | Species == caeruleum | Species == spectabile) %>% 
+  filter(Species == "blennioides" | Species == "caeruleum" | Species == "spectabile") %>% 
   select('ID':'Maj_Sub', 'Maj_Type') %>% 
   rename(
     major_substrate = Maj_Sub,
