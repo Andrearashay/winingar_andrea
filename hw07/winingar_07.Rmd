@@ -200,3 +200,13 @@ darter_renamed %>%
 ```
 
 Riffle two has several outliers, 
+
+Plot 3:boxplot
+
+```{r}
+darter_renamed %>% 
+  ggplot() +
+  geom_boxplot(mapping = aes(x = major_substrate, y = Length)) +
+  facet_grid(Species ~ Riffle)
+```
+
