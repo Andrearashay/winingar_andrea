@@ -158,24 +158,21 @@ darter_renamed <- darters_data %>%
     Depth = X7,
     Velocity = X8,
     Temperature = X9,
-    Maj_Sub = X10,
+    major_substrate = X10,
     Min_Sub = X11,
-    Maj_Type = X12,
+    major_type = X12,
     Min_Type = X13
   )
 darter_renamed$Riffle<- factor(darter_renamed$Riffle, levels = c('1', '2'))
-darter_renamed$Maj_Type <- factor(darter_renamed$Maj_Type, levels = c('s', 'fg', 'sg', 'lg', 'c'), ordered = TRUE)
+darter_renamed$Maj_Type <- factor(darter_renamed$major_type, levels = c('s', 'fg', 'sg', 'lg', 'c'), ordered = TRUE)
 ```
 
 Chunk 2: Use filter to remove zonale and tetrazonum. Remove columns min_sub and min_type. Rename maj_sub and maj_type. arrange by id.
 
 ```{r}
-darter_renamed %>% 
+darter_renamed <- darter_renamed %>% 
   filter(Species == "blennioides" | Species == "caeruleum" | Species == "spectabile") %>% 
-  select(ID:Maj_Sub, Maj_Type) %>% 
-  rename(
-    major_substrate = Maj_Sub,
-    major_type = Maj_Type) %>% 
+  select(ID:major_substrate, major_type) %>% 
   arrange(ID)
 ```
 
@@ -199,7 +196,7 @@ darter_renamed %>%
   facet_wrap(~ Riffle, nrow = 1)
 ```
 
-Riffle two has several outliers, 
+Riffle two has several outliers, riffle one only has asingle outlier. 
 
 Plot 3:boxplot
 
@@ -210,3 +207,4 @@ darter_renamed %>%
   facet_grid(Species ~ Riffle)
 ```
 
+The order of Species and Riffle in facet_grid() determines if they represented horizontally across or vertically. 
