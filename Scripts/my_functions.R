@@ -28,6 +28,4 @@ std_err <- function(values, na.rm = FALSE) {
 scaled_mass <- function(mass = 0, tarsus = 0, slope = 0) {
   # scaled mass calculation.
   mass*(((mean(tarsus))/tarsus)^slope)
-  # return results.
-  return(scaled_mass())
 }
