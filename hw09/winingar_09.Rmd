@@ -24,6 +24,8 @@ my_functions <- source(here('Scripts', 'my_functions.R'))
 
 ### Darters in Riffles
 
+#### Import Data
+
 This code chunk imports the darter data. Then use filter() to remove tetrazonum and zonale. 
 
 ```{r}
@@ -31,6 +33,40 @@ import_darter <- read_csv(here('data', 'darters.csv'))
 darter_data <- import_darter %>% 
   filter(species == "blennioides" | species == "caeruleum" | species == "spectabile")
 ```
+
+#### Wrangle Data
+
+Use mutate() to sum majsub and minsub in new column called total_substrate, change riffle value 1 and 2 to riffle 1 and riffle 2. change length from cm to mm. change sex values from f and m to female and male. 
+
+```{r}
+darter_data <- darter_data %>% 
+  mutate(sex = ifelse(sex == "f", 
+                             "female", 
+                             "male"),
+         total_substrate = majsub + minsub,
+         length = length * 10,
+         riffle = ifelse(riffle == "1",
+                         "riffle 1",
+                         "riffle 2"))
+darter_data
+```
+
+#### Summarize Data
+
+Summarize data with group_by and summarize. summarize mean length, depth, and velocity for each species for each riffle. 
+
+```{r}
+summarized_darter <- group_by(darter_data, riffle, species)
+summarized_darter <- summarise(summarized_darter, 
+          length = mean(length, na.rm = TRUE), 
+          depth = mean(depth, na.rm = TRUE),
+          velocity = mean(velocity, na.rm = TRUE))
+
+```
+
+
+
+
 
 
 
