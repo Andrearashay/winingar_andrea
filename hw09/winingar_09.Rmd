@@ -115,10 +115,25 @@ darter_data %>%
 
 #### Import data
 
-This code chunk imports data.
+This code chunk imports data and makes necessary changes. 
 
 ```{r}
-import_feathers <- read.csv(here('data', 'feathers.csv'))
+import_feathers <- read.csv(here('data', 'feathers.csv'), locale(decimal_mark = ','))
+import_feathers
+renamed_feathers <- rename(import_feathers,
+                           capture_date = ï..Capture.Date,
+                           day = Date,
+                           site = Site,
+                           urban_score = Urba.Score,
+                           cortF = CortF.ng.mg,
+                           cortB = CortF.ng.mm,
+                           sex = Sex,
+                           smi = SMI,
+                           tarsus = Tarsus,
+                           mass = Mass,
+                           basal_court = Bas_Cort,
+                           stress_court = Stress_Cort
+)
 ```
 
 
