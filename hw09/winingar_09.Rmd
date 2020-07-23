@@ -81,9 +81,45 @@ ggplot(data = darter_data) +
   stat_summary(
     mapping = aes(x = species, y = length)
   ) +
-  geom_point(mapping = aes(y = summarized_darter$length), shape = 15)
+  coord_flip() +
+  facet_wrap(~ riffle) +
+  labs( x = NULL, y = 'Length (mm)') +
+  geom_point(data = summarized_darter, mapping = aes(x = species, y = length), shape = 15)
 ```
 
+Plot 2: New plot with new geom_point layer of the length variable for each species. Change point color to gray60. add stat_summary() layer with arguments fun.y = median, geom = 'point', and size = 2.2. Add another stat_summary() change y function to mean, size to 3, and add color = 'maroon'. facet, flip and label. 
+
+```{r}
+darter_data %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = species, y = length), color = 'gray60') +
+  stat_summary(
+    mapping = aes(x = species, y = length),
+    fun.y = median,
+    geom = 'point',
+    size = 2.2
+  ) +
+  stat_summary(
+    mapping = aes(x = species, y = length),
+    fun.y = mean,
+    size = 3,
+    color = "maroon"
+  ) +
+  facet_wrap(~ riffle) +
+  coord_flip() +
+  labs(x = NULL, y = 'Length (mm)')
+```
+
+
+### Stress and Corticosterones in birds
+
+#### Import data
+
+This code chunk imports data.
+
+```{r}
+import_feathers <- read.csv(here('data', 'feathers.csv'))
+```
 
 
 
