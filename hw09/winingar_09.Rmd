@@ -72,6 +72,22 @@ summarized_darter %>%
   kable()
 ```
 
+#### Graph Data
+
+Plot 1: uses stat_summary() technique x = species, y = length. add geom_point layer to add mean length of each species to the plot with filled square shape.
+
+```{r}
+ggplot(data = darter_data) +
+  stat_summary(
+    mapping = aes(x = species, y = length)
+  ) +
+  geom_point(mapping = aes(y = summarized_darter$length), shape = 15)
+```
+
+
+
+
+
 
 
 
