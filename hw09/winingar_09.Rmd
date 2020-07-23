@@ -29,8 +29,7 @@ my_functions <- source(here('Scripts', 'my_functions.R'))
 This code chunk imports the darter data. Then use filter() to remove tetrazonum and zonale. 
 
 ```{r}
-import_darter <- read_csv(here('data', 'darters.csv'))
-darter_data <- import_darter %>% 
+import_darter <- read_csv(here('data', 'darters.csv')) %>% 
   filter(species == "blennioides" | species == "caeruleum" | species == "spectabile")
 ```
 
@@ -39,7 +38,7 @@ darter_data <- import_darter %>%
 Use mutate() to sum majsub and minsub in new column called total_substrate, change riffle value 1 and 2 to riffle 1 and riffle 2. change length from cm to mm. change sex values from f and m to female and male. 
 
 ```{r}
-darter_data <- darter_data %>% 
+darter_data <- import_darter %>% 
   mutate(sex = ifelse(sex == "f", 
                              "female", 
                              "male"),
@@ -61,9 +60,17 @@ summarized_darter <- summarise(summarized_darter,
           length = mean(length, na.rm = TRUE), 
           depth = mean(depth, na.rm = TRUE),
           velocity = mean(velocity, na.rm = TRUE))
-
+summarized_darter
 ```
 
+#### Table results
+
+Use kable() to make table with summary means.
+
+```{r}
+summarized_darter %>% 
+  kable()
+```
 
 
 
