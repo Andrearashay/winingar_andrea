@@ -1,0 +1,36 @@
+---
+title: "HW09: Wrangling II"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+Load packages.
+
+```{r}
+library(tidyverse)
+library(here)
+library(knitr)
+library(smatr)
+```
+
+source functions.
+
+```{r}
+my_functions <- source(here('Scripts', 'my_functions.R'))
+```
+
+### Darters in Riffles
+
+This code chunk imports the darter data. Then use filter() to remove tetrazonum and zonale. 
+
+```{r}
+import_darter <- read_csv(here('data', 'darters.csv'))
+darter_data <- import_darter %>% 
+  filter(species == "blennioides" | species == "caeruleum" | species == "spectabile")
+```
+
+
+
