@@ -162,8 +162,9 @@ grouped_feathers <- group_by(mutated_feathers, site)
 summarized_feathers <- summarise(grouped_feathers,
                                  mean_basal = mean(basal_court, na.rm = TRUE),
                                  mean_stress = mean(stress_court, na.rm = TRUE),
-                                 std_err_basal = std_err(basal_court),
-                                 std_err_stress = std_err(stress_court))
+                                 std_err_basal = std_err(basal_court, na.rm = TRUE),
+                                 std_err_stress = std_err(stress_court, na.rm = TRUE))
+summarized_feathers
 ```
 
 #### Graph Data
@@ -173,12 +174,20 @@ Plot 1: make boxplot of new_smi for each site
 ```{r}
 mutated_feathers %>% 
   ggplot() +
-  geom_boxplot(mapping = aes(x = new_smi, y = site))
+  geom_boxplot(mapping = aes(y = new_smi, x = site))
 ```
 
-Each site has the box range after 23 smi, but there are no dignificant differences.
+Each site has the box range after 23 smi, but there are no significant differences.
 
-Plot 2: 
+Plot 2: Make  plot of basal_court for each site.
+
+```{r}
+summarized_feathers %>% 
+  ggplot() +
+  geom_point((mapping = aes(y = std_err_basal, x = site))) +
+  geom_errorbar(mapping = aes(ymin = std_err_basal - 1, ymax = std_err_basal + 1, x = site))
+```
+
 
 
 
