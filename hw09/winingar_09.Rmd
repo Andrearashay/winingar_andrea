@@ -188,7 +188,11 @@ summarized_feathers %>%
   geom_errorbar(mapping = aes(ymin = std_err_basal - 1, ymax = std_err_basal + 1, x = site))
 ```
 
+Plot 3: same as above but mean_stress and geom_linerange().
 
-
-
-
+```{r}
+summarized_feathers %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = site, y = std_err_stress)) +
+  geom_linerange(mapping = aes(ymin = std_err_stress - 1, ymax = std_err_stress + 1, x = site))
+```
