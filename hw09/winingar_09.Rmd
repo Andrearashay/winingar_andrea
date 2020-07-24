@@ -147,7 +147,7 @@ Calculate mean tarsus and save to mean_tarsus, use mutate() to log-transform(log
 mean_tarsus <- mean(renamed_feathers$tarsus, na.rm = TRUE)
 log_mass <- mutate(renamed_feathers, log(mass))
 log_tarsus <- mutate(renamed_feathers, log(tarsus))
-mutate(renamed_feathers,
+mutated_feathers <- mutate(renamed_feathers,
        new_smi = scaled_mass(mass = renamed_feathers$mass,
                              tarsus = renamed_feathers$tarsus,
                              slope = 1.8))
@@ -158,7 +158,7 @@ mutate(renamed_feathers,
 group by site and then use summarize() to calculate mean and standard error of the mean for basal_court and stress_court for each site. 
 
 ```{r}
-grouped_feathers <- group_by(renamed_feathers, site)
+grouped_feathers <- group_by(mutated_feathers, site)
 summarized_feathers <- summarise(grouped_feathers,
                                  mean_basal = mean(basal_court, na.rm = TRUE),
                                  mean_stress = mean(stress_court, na.rm = TRUE),
@@ -166,8 +166,19 @@ summarized_feathers <- summarise(grouped_feathers,
                                  std_err_stress = std_err(stress_court))
 ```
 
+#### Graph Data
 
+Plot 1: make boxplot of new_smi for each site
 
+```{r}
+mutated_feathers %>% 
+  ggplot() +
+  geom_boxplot(mapping = aes(x = new_smi, y = site))
+```
+
+Each site has the box range after 23 smi, but there are no dignificant differences.
+
+Plot 2: 
 
 
 
