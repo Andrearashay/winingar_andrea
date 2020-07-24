@@ -79,7 +79,10 @@ Plot 1: uses stat_summary() technique x = species, y = length. add geom_point la
 ```{r}
 ggplot(data = darter_data) +
   stat_summary(
-    mapping = aes(x = species, y = length)
+    mapping = aes(x = species, y = length),
+    fun = median,
+    fun.min = min,
+    fun.max = max
   ) +
   coord_flip() +
   facet_wrap(~ riffle) +
@@ -118,24 +121,37 @@ darter_data %>%
 This code chunk imports data and makes necessary changes. 
 
 ```{r}
-import_feathers <- read.csv(here('data', 'feathers.csv'), locale(decimal_mark = ','))
+import_feathers <- read_csv(here('data', 'feathers.csv'), locale = locale(decimal_mark = ','))
 import_feathers
 renamed_feathers <- rename(import_feathers,
-                           capture_date = ï..Capture.Date,
-                           day = Date,
-                           site = Site,
-                           urban_score = Urba.Score,
-                           cortF = CortF.ng.mg,
-                           cortB = CortF.ng.mm,
-                           sex = Sex,
-                           smi = SMI,
-                           tarsus = Tarsus,
-                           mass = Mass,
-                           basal_court = Bas_Cort,
-                           stress_court = Stress_Cort
+                           capture_date = 'Capture Date',
+                           day = 'Date',
+                           site = 'Site',
+                           urban_score = 'Urba Score',
+                           cortF = 'CortF ng/mg',
+                           cortB = 'CortF ng/mm',
+                           sex = 'Sex',
+                           smi = 'SMI',
+                           tarsus = 'Tarsus',
+                           mass = 'Mass',
+                           basal_court = 'Bas_Cort',
+                           stress_court = 'Stress_Cort'
 )
 ```
 
+#### Wrangle data
+
+Calculate mean tarsus and save to mean_tarsus, use mutate() to log-transform(log()) the body mass and the tarsus length save in log-mass and log_tarsus. 
+
+```{r}
+mean_tarsus <- mean(renamed_feathers$tarsus, na.rm = TRUE)
+log_mass <- mutate(renamed_feathers, log(mass))
+log_tarsus <- mutate(renamed_feathers, log(tarsus))
+mutate(renamed_feathers,
+       new_smi = scaled_mass(mass = renamed_feathers$mass,
+                             tarsus = renamed_feathers$tarsus,
+                             slope = 1.8))
+```
 
 
 
