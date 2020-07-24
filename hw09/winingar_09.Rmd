@@ -153,6 +153,18 @@ mutate(renamed_feathers,
                              slope = 1.8))
 ```
 
+#### Summarize Data
+
+group by site and then use summarize() to calculate mean and standard error of the mean for basal_court and stress_court for each site. 
+
+```{r}
+grouped_feathers <- group_by(renamed_feathers, site)
+summarized_feathers <- summarise(grouped_feathers,
+                                 mean_basal = mean(basal_court, na.rm = TRUE),
+                                 mean_stress = mean(stress_court, na.rm = TRUE),
+                                 std_err_basal = std_err(basal_court),
+                                 std_err_stress = std_err(stress_court))
+```
 
 
 
