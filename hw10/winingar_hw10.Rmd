@@ -1,0 +1,57 @@
+---
+title: "HW10: Data Visualization II"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+load Packages chunk.
+
+```{r}
+library(tidyverse)
+library(here)
+library(GGally)
+```
+
+### Import and Wrangle
+
+import sparrows
+
+```{r}
+sparrow_raw <- read_tsv(here('data','sparrows.txt'))
+```
+
+Add columns box_group and row_order
+
+```{r}
+sparrows <- sparrow_raw %>% 
+  mutate(box_group = "Sparrows",
+         row_order = 1:nrow(.))
+```
+
+### Figure 2: outliers
+
+Create boxplot on left of figure 2.
+
+```{r}
+plot_box <- sparrows %>% 
+  ggplot(aes(x = box_group, 
+             y = wingcrd)) +
+  geom_boxplot(width = 0.25) +
+  labs(x = NULL,
+       y = "Wing length (mm)")
+```
+
+Create cleveland plot on right side of figure 2.
+
+```{r}
+plot_cleveland <- sparrows %>% 
+  ggplot(aes(x = wingcrd,
+             y = row_order)) +
+  geom_point() +
+  labs(x = "Wing length (mm)",
+       y = "Order of the data")
+```
+
