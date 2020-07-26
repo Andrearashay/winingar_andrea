@@ -134,6 +134,13 @@ h2 <- sparrows %>%
   facet_wrap(~ Month, ncol = 1)
 ```
 
+### Figure 10: Relationships
+
+Figure 10
+
+```{r}
+sparrows %>% ggscatmat(columns = 1:7)
+```
 
 
 
