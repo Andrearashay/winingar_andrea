@@ -1,0 +1,32 @@
+---
+title: "HW11 Data Visualization II"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+Load packages.
+
+```{r}
+library(tidyverse)
+library(here)
+library(GGally)
+```
+
+### Data exploration: Crabs
+
+Import data, then remove some columns.
+
+```{r}
+import_crabs <- read_csv(here('data', 'aegla_crabs.csv'))
+crabs_data <- select(import_crabs, Width, Depth, Flow, pH, TDS, Cond, N, Ni, Nt, Phos, Mg, Ca)
+```
+
+
+
+
+
+
+
