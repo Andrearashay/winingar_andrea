@@ -24,11 +24,66 @@ import_crabs <- read_csv(here('data', 'aegla_crabs.csv'))
 crabs_data <- select(import_crabs, Width, Depth, Flow, pH, TDS, Cond, N, Ni, Nt, Phos, Mg, Ca)
 crabs_no_na <- drop_na(crabs_data, N, Ni, Nt, Phos, Mg, Ca)
 crabs <-  crabs_no_na %>% 
-  mutate(row_order = 1:nrow(.))
+  mutate(box_group = 'Crabs',
+         row_order = 1:nrow(.))
 ```
 
+#### Identifying outlier
 
+Boxplots to identfy outliers.
 
+```{r}
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Width)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Depth)) +
+  geom_boxplot(width = 0.25)
+Depthcrabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Flow)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = pH)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group,
+             y = TDS)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Cond)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = N)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Ni)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Nt)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Phos)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Mg)) +
+  geom_boxplot(width = 0.25)
+crabs %>% 
+  ggplot(aes(x = box_group, 
+             y = Ca)) +
+  geom_boxplot(width = 0.25)
+```
+
+Phos, Depth and Flow all have outliers, outside the interquartile range. I believe Phosphate has the most outlieing outlier. 
 
 
 
