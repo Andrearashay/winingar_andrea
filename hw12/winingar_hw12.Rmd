@@ -89,38 +89,65 @@ print(mlk_dream_dt)
 2. Check yours dates to be sure they are correct. If you spot any errors, correct them now using the proper lubridate function(s).
 
 ```{r}
-mlk_dream_dt_new <- make_date(year = 1929, month = 01, day = 15)
-print(mlk_dream_dt_new)
+mlk_birth_dt_new <- make_date(year = 1929, month = 01, day = 15)
+print(mlk_birth_dt_new)
 ```
 
 3. What day of the week were you born on? Show the full day name, not the abbreviated name or the day number.
 
 ```{r}
-
+weekdays(birth_date_dt, abbreviate = FALSE)
 ```
 
 4. What day of the week will your birthday be on this year? Use lubridate’s update function. You must figure out how to do it entirely by code for full points (no hard-coding). In other words, you code should work just as well next year or five years in the future, without editing.
 
 ```{r}
-
+update(birth_date_dt, year = 2020) %>% 
+  weekdays(abbreviate = FALSE)
 ```
 
 5. What day of the week would your birthday be on in the Year 2525, if Man is still alive? How old would you be? Here you may hard-code 2525. Show the abbreviated day of the week.
 
 ```{r}
-
+age <- ymd(25250923) - birth_date_dt
+as.duration(age)
+update(birth_date_dt, year = 2525) %>% 
+  weekdays(abbreviate = TRUE)
 ```
 
 6. How many days was it between the birth of Dr. Elizabeth Garrett Anderson and Alice Augusta Ball?
 
 ```{r}
-
+anderson_ball <- anderson_dt - ball_dt
+print(anderson_ball)
 ```
 
 7. What is the duration between Martin Luther King Jr.’s birth date and his I Had a Dream speech.
 
 ```{r}
-
+king <- mlk_dream_dt - mlk_birth_dt_new
+as.duration(king)
 ```
+
+vector of eight dates. Identify leap years.
+
+```{r}
+dates <- c(birth_date_dt, anderson_dt, anning_dt, ball_dt, earle_dt, franklin_dt, lederberg_dt, mcclintock_dt, mlk_birth_dt_new)
+names(dates) <- c('Winingar', 'Anderson', 'Anning', 'Ball', 'Earle', 'Franklin', 'Lederberg', 'McClintock', 'King')
+leap_year(dates)
+difference <- dates - birth_date_dt
+print(rev(difference))
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
