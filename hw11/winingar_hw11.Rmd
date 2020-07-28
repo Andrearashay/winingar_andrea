@@ -146,7 +146,35 @@ h1
 
 I probably had way too much fun messing around and adjusting these histograms. The bins() changed the width of the individual columns or bars in the histograph. The N and Nt concentrations are on a much smaller scale than the Ni concentrations, meaning that there is more Ni overal than N or Nt.
 
+#### Density Plots
 
+Make density plots and save to variable
+
+```{r}
+d1 <- crabs %>% 
+  ggplot() +
+  geom_density(aes(x = N),
+               color = 'blue')
+d2 <- crabs %>% 
+  ggplot() +
+  geom_density(aes(x = Ni),
+               color = 'green')
+d3 <- crabs %>% 
+  ggplot() +
+  geom_density(aes(x = Nt),
+               color = 'purple')
+d3
+```
+
+The N has a higher density the lower it is. Ni has a high density overall but goes down around 0.075. Nt has a low density overall but starts out high.
+
+#### use ggpairs
+
+Use ggpairs() to compare the variables against each other all at once.
+
+```{r}
+crabs %>% ggpairs(columns = 1:7)
+```
 
 
 
