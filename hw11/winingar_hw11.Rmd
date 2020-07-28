@@ -41,7 +41,7 @@ crabs %>%
   ggplot(aes(x = box_group, 
              y = Depth)) +
   geom_boxplot(width = 0.25)
-Depthcrabs %>% 
+crabs %>% 
   ggplot(aes(x = box_group, 
              y = Flow)) +
   geom_boxplot(width = 0.25)
@@ -83,7 +83,69 @@ crabs %>%
   geom_boxplot(width = 0.25)
 ```
 
-Phos, Depth and Flow all have outliers, outside the interquartile range. I believe Phosphate has the most outlieing outlier. 
+Phos, Depth and Flow all have outliers, outside the interquartile range by 1.5*. I believe Phosphate has the most outlieing outlier. 
+
+
+#### Cleveland Plots
+
+Make four different cleveland plots:
+
+```{r}
+crabs %>% 
+  ggplot(aes(x = Width,
+             y = row_order)) +
+  geom_point() +
+  labs(y = "Order of the data")
+crabs %>% 
+  ggplot(aes(x = Depth,
+             y = row_order)) +
+  geom_point() +
+  labs(y = "Order of the data")
+crabs %>% 
+  ggplot(aes(x = Flow,
+             y = row_order)) +
+  geom_point() +
+  labs(y = "Order of the data")
+crabs %>% 
+  ggplot(aes(x = pH,
+             y = row_order)) +
+  geom_point() +
+  labs(y = "Order of the data")
+```
+
+Width- This graph shows the width being in a large range that agrees with the boxplot previously made of the interquartile range. Depth- Typically shows a range between 0.2 and 2.5 with the outlier. Flow- has a range of 0.2 to 0.55 with a few variables including the outlier outside of the main range. pH- has a rather neutral pH overall, a few that could be more on  basic/acidic side.
+
+#### Histograms
+
+Make three histograms and save to a variable. adjust bins argument
+
+```{r}
+h1 <- crabs %>% 
+  ggplot() +
+  geom_histogram(aes(x = N),
+                 color = 'black',
+                 bins = 15,
+                 boundary = 0,
+                 fill = 'blue')
+h2 <- crabs %>% 
+  ggplot() +
+  geom_histogram(aes(x = Ni),
+                 color = 'black',
+                 bins = 25,
+                 boundary = 0,
+                 fill = 'green')
+h3 <- crabs %>% 
+  ggplot() +
+  geom_histogram(aes(x = Nt),
+                 color = 'black',
+                 bins = 20,
+                 boundary = 0,
+                 fill = 'purple')
+h1
+```
+
+I probably had way too much fun messing around and adjusting these histograms. The bins() changed the width of the individual columns or bars in the histograph. The N and Nt concentrations are on a much smaller scale than the Ni concentrations, meaning that there is more Ni overal than N or Nt.
+
 
 
 
