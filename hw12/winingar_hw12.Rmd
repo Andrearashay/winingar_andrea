@@ -233,6 +233,37 @@ soil_summarized %>%
   facet_wrap(~ year)
 ```
 
+### Mississippi River Discharge
+
+import data and tidy, divide discharge by 1000. group by year and month. summarize mean discharge. Add event column.
+
+```{r}
+river_import <- read_csv(here('data', 'thebes_discharge.csv'))
+river_import
+river_tidy <- river_import %>% 
+  pivot_longer(c('1988':'2018'), names_to = 'year', values_to = 'discharge')
+river_tidy
+river_divided_discharge <- river_tidy %>% 
+  mutate(discharge = discharge / 1000)
+river_divided_discharge
+river_grouped <- river_divided_discharge %>% 
+  group_by(year, Month)
+river_grouped
+river_summarized <- river_grouped %>% 
+  summarize(
+    mean_discharge = mean(discharge)
+  )
+river_summarized
+river_event <- river_summarized %>% 
+  mutate(
+    event = case_when(
+      year == 1993 | year == 2011 ~ 'Flood',
+      year == 1988 | year == 2012 ~ 'Drought',
+      TRUE ~ 'Normal'
+    )
+  )
+river_event
+```
 
 
 
