@@ -175,7 +175,32 @@ lake_mendota_duration %>%
   labs( x = 'Ice Off Year', y = 'Duration (years)')
 ```
 
+### Soil Carbon Dioxide
 
+Import data
+
+```{r}
+soil_import <- read_tsv(here('data', 'soil_co2.txt'))
+```
+
+Establish POSIXct-compatible variable. Rename columns. Make date column.
+
+```{r}
+soil_date <- dmy('1 Jan 2006')
+soil_import %>% 
+  rename(
+    day = 'DayN[]',
+    date_code = 'Datecode[]',
+    min = 'Min[]',
+    veg = 'Veg[]',
+    plot = 'Plot[]',
+    group = 'Group[]',
+    corr_co2 = 'CorrCO2[]',
+    soil_t = 'SoilT[]'
+  )
+soil_data <- soil_import %>% 
+  mutate(date = soil_date + day)
+```
 
 
 
