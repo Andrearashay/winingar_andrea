@@ -235,7 +235,7 @@ soil_summarized %>%
 
 ### Mississippi River Discharge
 
-import data and tidy, divide discharge by 1000. group by year and month. summarize mean discharge. Add event column.
+import data and tidy, divide discharge by 1000. group by year and month. summarize mean discharge. Add event column, change number month to abbr
 
 ```{r}
 river_import <- read_csv(here('data', 'thebes_discharge.csv'))
@@ -261,10 +261,25 @@ river_event <- river_summarized %>%
       year == 1988 | year == 2012 ~ 'Drought',
       TRUE ~ 'Normal'
     )
-  )
+  ) 
 river_event
 ```
 
+Make a second data set
+
+```{r}
+events <- river_event %>% 
+  filter(year == 1988, year == 1993, year == 2011, year == 2012)
+```
+
+plot data. 
+
+```{r}
+river_event %>% 
+  ggplot() +
+  geom_line(mapping = aes(x = Month, y =  mean_discharge), color = 'gray70', size = 0.3) +
+  geom_line(events, mapping = aes(x = Month, y = mean_discharge, color = event))
+```
 
 
 
