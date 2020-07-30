@@ -139,6 +139,42 @@ difference <- dates - birth_date_dt
 print(rev(difference))
 ```
 
+### Part 2: Wrangling and Plotting with Dates
+
+Import data. Remove lakes other than lake mendota
+
+```{r}
+lake_ice_import <- read_csv(here('data', 'lake_ice.csv'), na = "-999")
+lake_mendota_ice <- lake_ice_import %>% 
+  filter(lakename == 'LAKE MENDOTA') %>% 
+  select(iceon_year, iceon_month, iceon_day, iceoff_year, iceoff_month, iceoff_day)
+```
+
+Use lubridate functions to assemble the ice on year, month, and date into an ice_on date column. Use the same process to assemble the ice off information to make an ice_off date column.
+
+```{r}
+lake_mendota <- lake_mendota_ice %>% 
+  mutate(ice_on = make_date(iceon_year, iceon_month, iceon_day))
+lake_mendota_date <- lake_mendota %>% 
+  mutate(ice_off = make_date(iceoff_year, iceoff_month, iceoff_day))
+```
+
+Create a new duration column by subtracting ice_on from ice_off. Make a note of the unit of time for duration. 
+
+```{r}
+lake_mendota_duration <- lake_mendota_date %>% 
+  mutate(duration = as.numeric(ice_off - ice_on))
+```
+
+make line graph duration vs. ice_off.
+
+```{r}
+lake_mendota_duration %>% 
+  ggplot() +
+  geom_line(mapping = aes(x = iceoff_year, y = duration), color = 'green') +
+  labs( x = 'Ice Off Year', y = 'Duration (years)')
+```
+
 
 
 
