@@ -263,6 +263,8 @@ river_event <- river_summarized %>%
     )
   ) 
 river_event
+river_mutate <- river_event %>% 
+  mutate(Month = month(river_event$Month, label = TRUE))
 ```
 
 Make a second data set
