@@ -16,3 +16,30 @@ library(ggthemes)
 library(gghighlight)
 ```
 
+### Part 1: DNA Strings
+
+#### Import the Data
+
+```{r}
+beta_import <- read_lines(here('data', 'beta_gliadin.txt'), skip = 1)
+print(beta_import)
+```
+
+#### From many Strings to One
+
+Replace all whitespaces and digits with nothing. 
+
+```{r}
+beta_replaced <- beta_import %>% 
+  str_replace_all("\\s", "") %>% 
+  str_replace_all("\\d", "") %>% 
+  str_c(collapse = "") %>% 
+  str_to_upper() %>% 
+beta_replaced
+```
+
+
+
+
+
+
