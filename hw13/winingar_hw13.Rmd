@@ -1,0 +1,18 @@
+---
+title: "HW13: Strings and Things"
+author: "Andrea Winingar"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+Load packages.
+
+```{r}
+library(tidyverse)
+library(here)
+library(ggthemes)
+library(gghighlight)
+```
+
