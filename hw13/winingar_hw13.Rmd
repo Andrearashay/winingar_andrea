@@ -49,6 +49,34 @@ str_count(beta_replaced, 'ATG')
 str_count(beta_replaced, 'TGA|TAA')
 ```
 
+Create caat_box and tata_box, count how many times they occur
+
+```{r}
+caat_box <- "CCAAT"
+tata_box <- "CTATAA"
+str_count(beta_replaced, caat_box)
+str_count(beta_replaced, tata_box)
+```
+
+Create caat_seq anda tata_seq then count them.
+
+```{r}
+caat_seq <- "CCAAT.{100,150}ATG"
+str_count(beta_replaced, caat_seq)
+tata_seq <- "CTATAA.{50,100}ATG"
+str_count(beta_replaced, tata_seq)
+```
+
+Find out if any caat_seq have tata_seq
+
+```{r}
+caat_seqs_all <- beta_replaced %>% 
+  str_extract_all(caat_seq, simplify = TRUE)
+str_which(caat_seqs_all, tata_seq)
+promoter <- str_sub(caat_seqs_all[1])
+promoter
+str_length(promoter)
+```
 
 
 
