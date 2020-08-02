@@ -34,9 +34,26 @@ beta_replaced <- beta_import %>%
   str_replace_all("\\s", "") %>% 
   str_replace_all("\\d", "") %>% 
   str_c(collapse = "") %>% 
-  str_to_upper() %>% 
+  str_to_upper()
 beta_replaced
+str_length(beta_replaced)
 ```
+
+#### Sequence analysis: find the promoter region
+
+Find how many possible start and stop codons.
+
+```{r}
+str_count(beta_replaced, "[^ACTG]")
+str_count(beta_replaced, 'ATG')
+str_count(beta_replaced, 'TGA|TAA')
+```
+
+
+
+
+
+
 
 
 
