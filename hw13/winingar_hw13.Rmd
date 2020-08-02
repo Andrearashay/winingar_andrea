@@ -95,7 +95,7 @@ tidy data
 
 ```{r}
 ants_tidy <- ants_import %>% 
-  pivot_longer(names_to = "species", values_to = "abundance", matches("[:Upper:].+\\.[:lower:].+", ignore.case = FALSE)) %>% 
+  pivot_longer(names_to = "species", values_to = "abundance", matches("[A-Z].+\\..+", ignore.case = FALSE)) %>% 
   select(year, species, abundance)
 ants_tidy
 ```
@@ -111,7 +111,7 @@ ants_year <- ants_mutated %>%
 ants_grouped <- ants_year %>% 
   group_by(year, species)
 ants_summarized <- ants_grouped %>% 
-  summarize('total abundance' = sum(ants_year$abundance))
+  summarize('total abundance' = sum(abundance))
 ants_summarized
 ```
 
@@ -129,6 +129,27 @@ ants_summarized %>%
   labs(x = NULL, y = 'Total Abundance', shape = 'Year') +
   theme_minimal()
 ```
+
+### Part 3 :Featuring Phlox Flowers
+
+#### Import and wrangle the first data set
+
+```{r}
+flower_import <- read_csv(here('data', 'flower_size.csv'))
+flower_import
+flower_wrangled <- flower_import %>% 
+  filter(!is.na('Flower number')) %>% 
+  select(species = 'Species', cor_length = `Corolla length (cm)`, throat_width = `Corolla width throat (cm)`) %>% 
+  separate(species, into = c('genus', 'species'), extra = 'drop') %>% 
+  group_by(genus, species) %>% 
+  summarise(mean_length = mean(cor_length, na.rm = TRUE),
+            mean_width = mean(throat_width, na.rm = TRUE),
+            max_length = max(cor_length),
+            max_width = max(throat_width)
+            ,.groups = 'drop')
+```
+
+#### Import and wrangle the second data set
 
 
 
