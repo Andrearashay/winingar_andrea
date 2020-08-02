@@ -151,6 +151,17 @@ flower_wrangled <- flower_import %>%
 
 #### Import and wrangle the second data set
 
+```{r}
+pollinators_raw <- read_csv(here('data', 'flower_pollinators.csv'))
+pollinators <- pollinators_raw %>% 
+  select(-(Color | starts_with("Source"))) %>% 
+  drop_na("Pollinator") %>% 
+  separate(Species, into = c("genus", "species"), extra = 'drop') %>% 
+  separate(Pollinator, into = "Syndrome", extra = 'drop')
+pollinators
+```
+
+#### Join the Datasets
 
 
 
