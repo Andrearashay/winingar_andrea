@@ -78,6 +78,42 @@ promoter
 str_length(promoter)
 ```
 
+### Part 2: Ants
+
+#### Import the data
+
+import ants data.
+
+```{r}
+ants_import <- read_csv(here('data', 'ants.csv'))
+ants_import
+```
+
+#### Wrangle the Data
+
+tidy data
+
+```{r}
+ants_tidy <- ants_import %>% 
+  pivot_longer(names_to = "species", values_to = "abundance", matches("[:Upper:].+\\.[:lower:].+", ignore.case = FALSE)) %>% 
+  select(year, species, abundance)
+ants_tidy
+```
+
+Use mutate to change species names and then use mutate to turn year into ordered factor, group by year and species
+
+```{r}
+ants_mutated <- ants_tidy %>% 
+  mutate(species = str_replace(species, "(^[A-Z][a-z]{0,3}).*\\.([a-z]{1,4}).*", "\\1\\2"))
+ants_mutated
+ants_year <- ants_mutated %>% 
+  mutate(factor(year, levels = c(2010, 2011), ordered = TRUE))
+ants_grouped <- ants_year %>% 
+  group_by(year, species)
+ants_summarized <- ants_grouped %>% 
+  summarize('total abundance' = sum(ants_year$abundance))
+ants_summarized
+```
 
 
 
