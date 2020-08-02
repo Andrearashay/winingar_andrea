@@ -107,12 +107,27 @@ ants_mutated <- ants_tidy %>%
   mutate(species = str_replace(species, "(^[A-Z][a-z]{0,3}).*\\.([a-z]{1,4}).*", "\\1\\2"))
 ants_mutated
 ants_year <- ants_mutated %>% 
-  mutate(factor(year, levels = c(2010, 2011), ordered = TRUE))
+  mutate(year = factor(year, levels = c(2010, 2011), ordered = TRUE))
 ants_grouped <- ants_year %>% 
   group_by(year, species)
 ants_summarized <- ants_grouped %>% 
   summarize('total abundance' = sum(ants_year$abundance))
 ants_summarized
+```
+
+#### Plot the Data
+
+Make cleveland dot plot
+
+```{r}
+ants_summarized %>% 
+  ggplot(aes(x = reorder(species, `total abundance`),
+                         y = `total abundance`), group = species) +
+  geom_line() +
+  geom_point(mapping = aes(shape = year), size = 2) +
+  coord_flip() +
+  labs(x = NULL, y = 'Total Abundance', shape = 'Year') +
+  theme_minimal()
 ```
 
 
