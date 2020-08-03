@@ -236,6 +236,65 @@ mutated_data %>%
 
 #### Other improvements: colors and themes
 
+### Part 4: Customize your plots
+
+make four scatterplots of max width as a function of max length, while using different themes and palettes
+
+#### Plot 1
+
+```{r}
+mutated_data %>% 
+  ggplot() +
+  geom_point(aes(x = mean_length, y = mean_width, shape = syndrome_group, fill = syndrome_group, size = 3)) +
+    labs(shape = "Syndrome", fill = "Syndrome", x = "Mean Length (cm)", y = "Mean Width (cm)") +
+  theme_stata() +
+  scale_shape_manual(values = c(22:25)) +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 14))
+  
+```
+
+#### Plot 2
+
+```{r}
+mutated_data %>% 
+  ggplot() +
+  geom_point(aes(x = mean_length, y = mean_width, shape = syndrome_group, fill = syndrome_group, size = 1)) +
+    labs(shape = "Syndrome", fill = "Syndrome", x = "Mean Length (cm)", y = "Mean Width (cm)") +
+  theme_dark() +
+  scale_shape_manual(values = c(22:25)) +
+  theme(axis.text = element_text(size = 6),
+        axis.title = element_text(size = 8)) +
+  scale_fill_excel_new()
+```
+
+### Plot 3
+
+```{r}
+mutated_data %>% 
+  ggplot() +
+  geom_point(aes(x = mean_length, y = mean_width, shape = syndrome_group, fill = syndrome_group, size = 3)) +
+    labs(shape = "Syndrome", fill = "Syndrome", x = "Mean Length (cm)", y = "Mean Width (cm)") +
+  theme_classic() +
+  scale_shape_manual(values = c(22:25)) +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 6)) +
+  scale_fill_colorblind()
+```
+
+#### Plot 4
+
+```{r}
+mutated_data %>% 
+  ggplot() +
+  geom_point(aes(x = mean_length, y = mean_width, shape = syndrome_group, fill = syndrome_group, size = 1.5)) +
+    labs(shape = "Syndrome", fill = "Syndrome", x = "Mean Length (cm)", y = "Mean Width (cm)") +
+  theme_gdocs() +
+  scale_shape_manual(values = c(22:25)) +
+  theme(axis.text = element_text(size = 10),
+        axis.title = element_text(size = 10)) +
+  scale_fill_discrete()
+```
 
 
 
