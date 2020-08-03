@@ -163,6 +163,12 @@ pollinators
 
 #### Join the Datasets
 
+Use inner_join to join the smaller data set to the larger set. As long as your column names for genus and species are identical in both tibbles (e.g., genus and species), the join function will automatically match both columns when merging the data.
+
+```{r}
+flower_wrangled %>% 
+inner_join(pollinators)
+```
 
 
 
