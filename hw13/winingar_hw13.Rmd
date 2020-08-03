@@ -234,6 +234,9 @@ mutated_data %>%
               use_direct_label = FALSE)
 ```
 
+#### Other improvements: colors and themes
+
+
 
 
 
