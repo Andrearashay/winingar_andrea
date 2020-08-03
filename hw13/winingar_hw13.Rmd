@@ -203,6 +203,37 @@ joined_data %>%
   labs(x = "Mean length", y = "Mean width")
 ```
 
+Use mutate and case_when to create a new column called syndrome_group and to change autogamous to Autogamous (upper case A), bat to Mammal, hummingbird to Bird, and everything else to Insect. Creating a new column would allow you to access the individual syndromes for future plots, when necessary.
+
+```{r}
+mutated_data <- joined_data %>% 
+  mutate(Syndrome = str_replace(Syndrome, "(^be.*e$)", "\\1s")) %>%
+  mutate(Syndrome = str_replace(Syndrome, '(beetles|flies)', 'other insects')) %>% 
+  mutate(syndrome_group = case_when(
+           Syndrome == "autogamous" ~ "Autogamous",
+           Syndrome == "bat" ~ "Mammal",
+           Syndrome == "hummingbird" ~ "Bird",
+           TRUE ~ "Insect"))
+mutated_data %>% 
+  
+  ggplot(aes(mean_length, mean_width, color = syndrome_group)) +
+  geom_point() +
+  labs(x = "Mean length", y = "Mean width", color = "Syndrome")
+```
+
+#### Highlighting groups with gghighlight
+
+Change the above plot so that it highlights both the mammal and bird syndrome groups. 
+
+```{r}
+mutated_data %>%
+  ggplot(aes(mean_length, mean_width, color = syndrome_group)) +
+  geom_point() +
+  labs(x = "Mean length", y = "Mean width", color = "Syndrome") +
+  gghighlight(syndrome_group == "Mammal" | syndrome_group == "Bird",
+              use_direct_label = FALSE)
+```
+
 
 
 
