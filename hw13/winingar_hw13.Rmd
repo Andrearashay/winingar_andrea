@@ -147,6 +147,7 @@ flower_wrangled <- flower_import %>%
             max_length = max(cor_length),
             max_width = max(throat_width)
             ,.groups = 'drop')
+flower_wrangled
 ```
 
 #### Import and wrangle the second data set
@@ -166,9 +167,47 @@ pollinators
 Use inner_join to join the smaller data set to the larger set. As long as your column names for genus and species are identical in both tibbles (e.g., genus and species), the join function will automatically match both columns when merging the data.
 
 ```{r}
-flower_wrangled %>% 
-inner_join(pollinators)
+joined_data <- flower_wrangled %>% 
+  inner_join(pollinators)
 ```
+
+#### Plotting
+
+Make a scatterplot to show the relationship between mean_length (x-axis) and mean_width (y-axis). Color the points by Syndrome.
+
+```{r}
+joined_data %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = mean_length, y = mean_width, color = Syndrome)) +
+  labs(x = "Mean length", y = "Mean width")
+```
+
+Use mutate with str_replace() and regex patterns to replace all occurences of “beetle” with “beetles,” and “bee” with “bees”. Be careful. If you don’t do this right, then you could end up with “beetless”. Make use of the $ match character.
+
+```{r}
+joined_data %>% 
+  mutate(Syndrome = str_replace(Syndrome, "(^be.*e$)", "\\1s")) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = mean_length, y = mean_width, color = Syndrome)) +
+  labs(x = "Mean length", y = "Mean width")
+```
+
+Once again, use mutate() with str_replace and a regex pattern to replace all instances of “beetles” or “flies” with “other insects”.
+
+```{r}
+joined_data %>% 
+  mutate(Syndrome = str_replace(Syndrome, "(^be.*e$)", "\\1s")) %>%
+  mutate(Syndrome = str_replace(Syndrome, '(beetles|flies)', 'other insects')) %>% 
+  ggplot() +
+  geom_point(mapping = aes(x = mean_length, y = mean_width, color = Syndrome)) +
+  labs(x = "Mean length", y = "Mean width")
+```
+
+
+
+
+
+
 
 
 
