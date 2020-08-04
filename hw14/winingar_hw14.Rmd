@@ -272,7 +272,34 @@ base + geom_point(data = both_species2,
        shape = "Species")
 ```
 
+### Part 4: Bathymetry
 
+#### Example: Fiji earthquakes
+
+Define global variable range, convert depth to feet.
+
+```{r}
+min_long <- -170
+max_long <- 164
+min_lat  <- -42
+max_lat  <- -8
+earthquakes <- quakes %>% 
+   mutate(depth = depth * 3280.84)
+```
+
+can't do anymore.
+
+#### Bathymetry: now you try it
+
+GLobal Variables, load blennies
+
+```{r}
+min_long: -90
+max_long: -58
+min_lat: 8
+max_lat: 28
+blennies_raw <- read_csv(here('data', 'blennies.csv'))
+```
 
 
 
