@@ -7,8 +7,270 @@ editor_options:
   chunk_output_type: inline
 ---
 
+Load packages
+
+```{r}
+library(here)
+library(raster)
+library(tidyverse)
+library(ggthemes)
+library(maptools)
+library(ggmap)
+```
+
+### Part 1: Outline Maps
+
+#### Example States and Countries
+
+##### USA map
+
+Unable to do at moment.
+
+##### Missouri Map
+
+unable to do at moment
+
+#### Outline Maps: My Turn
+
+Can't do it. 
+
+### Part 2: Choropleth maps
+
+#### Example: Skin cancer mortality in the U.S.
+
+Import data
+
+```{r}
+skin_cancer_raw <- 
+  read_delim(file = here::here("data","skin_cancer.txt"), 
+             delim = " ", 
+             skip = 7, 
+             trim_ws = TRUE)
+```
+
+Wrangle the Data
+
+```{r}
+skin_cancer <- skin_cancer_raw %>% 
+  filter(State != "Wash,D.C.") %>% 
+  mutate(State = case_when(
+    State == "NorthCarolina" ~ "North Carolina",
+    State == "SouthCarolina" ~ "South Carolina",
+    State == "NorthDakota" ~ "North Dakota",
+    State == "SouthDakota" ~ "South Dakota",
+    State == "NewHampshire" ~ "New Hampshire",
+    State == "NewJersey" ~ "New Jersey",
+    State == "NewMexico" ~ "New Mexico",
+    State == "MewYork" ~ "New York", # Data has MewYork typo 
+    State == "RhodeIsland" ~ "Rhode Island",
+    State == "WestVirginia" ~ "West Virginia",
+    TRUE ~ State
+  ))
+```
+
+Calculate mean skin cancer mortality rate. mean_mort for average of all 48 states. then use mutate() to add a relative_mort column, substracting the Mort column from the mean_mort average. 
+
+```{r}
+mean_mort <- mean(skin_cancer$Mort)
+skin_cancer_adj <- skin_cancer %>% 
+  mutate(relative_mort = Mort - mean_mort)
+```
+
+Create vector of lower 48 states.
+
+```{r}
+lower_48 <- c("Alabama","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming")
+```
+
+Unable to do more of this portion.
 
 
+
+
+#### Choropleth map: my turn
+
+import data
+
+```{r}
+lyme_raw <- read_csv(here('data', 'lyme_disease.csv'), skip = 1, na = "-")
+lyme_raw
+```
+
+Create a new column called 2017 that adds together 2017_Confirmed and 2017_Probable, then remove the two columns.
+
+```{r}
+lyme_disease <- lyme_raw %>% 
+  mutate(`2017` = `2017_Confirmed` + `2017_Probable`) %>% 
+  subset(select = -c(`2017_Confirmed`, `2017_Probable`)) %>% 
+  pivot_longer("2007":"2017", names_to = "year", values_to = "cases") %>% 
+  group_by(State) %>% 
+  summarise(mean_cases = mean(cases), 
+            log_mean = log10(mean_cases), 
+            .groups = "drop")
+```
+
+Can't do anymore.
+
+### Part 3: Dot distribution maps
+
+#### Example: Distribution of Gigantopithecus and Ursus
+
+Define global vars, then use setseed() 
+
+```{r}
+min_long <- -126
+max_long <- -104
+min_lat  <-   31
+max_lat  <-   50
+set.seed(9618973)
+```
+
+Load bigfoot data, filter data, sample 300, change genus, then select name, long, lat
+
+```{r}
+bigfoot <- read_csv(here::here("data", "bigfoot.csv"))
+bigfoot <- bigfoot %>% 
+  filter(long >= min_long & long <= max_long,
+         lat >= min_lat & lat <= max_lat) %>% 
+  sample_n(300) %>% 
+  mutate(name = "Gigantopithecus") %>% 
+  dplyr::select(name, long, lat)
+```
+
+import bears data.
+
+```{r}
+bears <- read_csv(here::here("data", "bears.csv"))
+both_species <- bind_rows(bigfoot, bears)
+head(both_species)
+tail(both_species)
+```
+
+Map
+
+```{r}
+base = get_stamenmap(bbox = c(min_long, 
+                              min_lat, 
+                              max_long, 
+                              max_lat),
+                     zoom = 4, 
+                     maptype = "terrain-background")
+ggmap(base)
+```
+
+ggmap uses ggplot2 to plot this layer, so we can store the result into an object and add to it using familiar geoms. The first layer to add is the Bigfoot data.
+
+```{r}
+base <- ggmap(base)
+base + geom_point(data = bigfoot,
+                  aes(x = long,
+                      y = lat))
+
+```
+
+Black Bears
+
+```{r}
+base + geom_point(data = bears,
+                  aes(x = long,
+                      y = lat))
+```
+
+Both species
+
+```{r}
+base + geom_point(data = both_species,
+                  aes(x = long,
+                      y = lat,
+                      shape = name,
+                      fill = name),
+                  size = 2) +
+  scale_shape_manual(values = c(22:23)) +
+  labs(x = "Longitude",
+       y = "Latitude",
+       fill = "Species",
+       shape = "Species")
+```
+
+#### Distribution map: your turn
+
+Recreate the Bigfoot and Black Bear distribution map but change the setseed number to your last seven digits of your S0 number. The seed determines the random sample of Bigfoot sightings but the bear distribution should not change.
+
+change set.seed()
+
+```{r}
+min_long <- -126
+max_long <- -104
+min_lat <-  31
+max_lat <- 50
+set.seed(1990589)
+```
+
+recreate nigffot data for bigfoot 2
+
+```{r}
+bigfoot2 <- read_csv(here::here("data", "bigfoot.csv"))
+bigfoot2 <- bigfoot2 %>% 
+  filter(long >=min_long & long <= max_long, 
+         lat >= min_lat & lat <= max_lat) %>% 
+  sample_n(300) %>% 
+  mutate(name = "Gigantopithecus") %>% 
+  dplyr::select(name, long, lat)
+```
+
+Same for bears2, then combine species to bot species_2
+
+```{r}
+bears2 <- read_csv(here::here("data", "bears.csv"))
+both_species2 <- bind_rows(bigfoot2, bears2)
+head(both_species2)
+tail(both_species2)
+```
+
+Map 2
+
+```{r}
+base2 = get_stamenmap(bbox = c(min_long, 
+                              min_lat, 
+                              max_long, 
+                              max_lat), 
+                     zoom = 4, 
+                     maptype = "terrain-background")
+ggmap(base2)
+```
+
+Bigfoot map 2
+
+```{r}
+base2 <- ggmap(base2)
+base2 + geom_point(data = bigfoot2, 
+                  aes(x = long, 
+                      y = lat))
+```
+
+Bear map 2
+
+```{r}
+base + geom_point(data = bears2, 
+                  aes(x = long, 
+                      y = lat))
+```
+
+Both map 2 
+
+```{r}
+base + geom_point(data = both_species2,
+                  aes(x = long,
+                      y = lat,
+                      shape = name,
+                      fill = name),
+                  size = 2) +
+  scale_shape_manual(values = c(22:23)) +
+  labs(x = "Longitude",
+       y = "Latitude",
+       fill = "Species",
+       shape = "Species")
+```
 
 
 
