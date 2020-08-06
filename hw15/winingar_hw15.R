@@ -33,26 +33,39 @@ lower_48 <- c("Alabama","Arizona","Arkansas","California","Colorado",
 # Importing data
 
 confirmed_import <- read_csv(here('data', 'covid_confirmed_usafacts.csv')) %>% 
-  subset(countyFIPS != 0)
+  subset(countyFIPS != 0, stateFIPS != 0)
 confirmed_import
 deaths_import <- read_csv(here('data', 'covid_deaths_usafacts.csv')) %>% 
-  subset(countyFIPS != 0)
+  subset(countyFIPS != 0, stateFIPS != 0)
 deaths_import
 
 # Tidy data
 confirmed_made_date_column <- confirmed_import %>% 
   pivot_longer(c(`1/22/20`:`7/31/20`), 
                names_to = 'date', 
-               values_to = 'confirmed')
+               values_to = 'cases')
 confirmed_made_date_column
+
 deaths_made_date_column <- deaths_import %>% 
   pivot_longer(c(`1/22/20`:`7/31/20`),
                names_to = 'date',
-               values_to = 'deaths')
+               values_to = 'cases')
+deaths_made_date_column
 
+# Convert Date column to ISO 8601 format
+confirmed_date_format <- confirmed_made_date_column %>% 
+  mutate(date = mdy(date))
+confirmed_date_format
 
+deaths_date_format <- deaths_made_date_column %>% 
+  mutate(date = mdy(date))
+deaths_date_format
 
+# Remove dates before first US case
+confirmed_after_us_first <- confirmed_date_format %>% 
+  filter(date >= dmy(first_us_case))
+confirmed_after_us_first
 
-
-
-
+deaths_after_us_first <- deaths_date_format %>% 
+  filter(date >= dmy(first_us_case))
+deaths_after_us_first
