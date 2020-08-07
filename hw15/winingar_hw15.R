@@ -35,17 +35,24 @@ west <- c(04, 08, 16, 35, 30, 49, 32, 56, 02, 06, 15, 41, 53)
 
 # importing, wrangling, graphs --------------------------------------------
 
+# Functions
+new <- function(args) {
+  length_args <- length(args) 
+  day_before <- c(0, args[1:length_args - 1])
+  diff <- args - day_before
+  return(diff)
+}       
+
 # Importing data
 
-confirmed_import <- read_csv(here('data', 'covid_confirmed_usafacts.csv')) %>% 
-  subset(countyFIPS != 0, stateFIPS != 0)
+confirmed_import <- read_csv(here('data', 'covid_confirmed_usafacts.csv'))
 confirmed_import
-deaths_import <- read_csv(here('data', 'covid_deaths_usafacts.csv')) %>% 
-  subset(countyFIPS != 0, stateFIPS != 0)
+deaths_import <- read_csv(here('data', 'covid_deaths_usafacts.csv'))
 deaths_import
 
 # Tidy data
 confirmed_made_date_column <- confirmed_import %>% 
+  subset(countyFIPS != 0, stateFIPS != 0) %>% 
   pivot_longer(c(`1/22/20`:`7/31/20`), 
                names_to = 'date', 
                values_to = 'confirmed') %>% 
@@ -54,6 +61,7 @@ confirmed_made_date_column <- confirmed_import %>%
 confirmed_made_date_column
 
 deaths_made_date_column <- deaths_import %>% 
+  subset(countyFIPS != 0, stateFIPS != 0) %>% 
   pivot_longer(c(`1/22/20`:`7/31/20`),
                names_to = 'date',
                values_to = 'deaths') %>% 
@@ -102,7 +110,7 @@ covid_combined_regions %>%
   theme_test() +
   theme(legend.position = 'bottom')
 
-### Plot 2
+ ### Plot 2
 
 # make data with only mo confirmed
 mo_confirmed <- confirmed_made_date_column %>%  
@@ -141,14 +149,67 @@ plot_2_data
 # plot 2
 plot_2_data %>% 
   ggplot() +
-  geom_line(aes(x = date, y = total_cases, color=County)) +
+  geom_line(aes(x = date, y = total_cases, color = County)) +
   labs(x = NULL, y = "Total Confirmed Cases") +
   gghighlight(`2019` >= 200, use_direct_label = FALSE) +
   scale_x_date(date_labels = "%d %b") + 
   theme_test()
 
+### Plot 3
+# Import new county pop data
+county_pop_import <- read_csv(here("data","covid_county_population_usafacts.csv"))
+county_pop <- county_pop_import %>% 
+  filter(countyFIPS!=0) 
+county_pop
 
+# Data for plot 3
+plot_3_data <- confirmed_made_date_column %>% 
+  filter(date %in% c(ymd("2020-04-01"):ymd("2020-04-30"),
+                   ymd("2020-07-01"):ymd("2020-07-30"))) %>% 
+  mutate(Month = month(date, label = TRUE, abbr = FALSE)) %>% 
+  group_by(`State`, `County Name`, Month) %>% 
+  summarise(county_totals = sum(confirmed, na.rm = TRUE)) %>% 
+  left_join(county_pop) %>% 
+  mutate(case_rate = county_totals/population) %>% 
+  arrange(case_rate)
 
+# Plot 3
+plot_3_data %>% 
+  ggplot(aes(x = reorder(case_rate, Month), y = State)) +
+  geom_line(color = "black") +
+  geom_point(aes(color = Month, shape = Month), size = 1) +
+  labs(x = "COVID-19 cases(per 100,000) for April (squares) and July (circles)", y = NULL) +
+  theme(legend.position = "none") +
+  theme_minimal()
 
+### Plot 4
+plot_4_data <- confirmed_made_date_column %>% 
+  filter(State == "MO", date >= dmy(first_mo_case)) %>% 
+  mutate(`County Name` = str_replace(`County Name`, " County$",""),
+         `County Name` = str_replace(`County Name`, "^Jackson ","")) %>% 
+  group_by(date) %>% 
+  summarise(total_confirmed = sum(confirmed, na.rm = TRUE), .groups='drop') %>% 
+  mutate(daily = new(`total_confirmed`))
+plot_4_data
+
+plot_4_data$roll_mean <- 
+  data.table::frollmean(plot_4_data$daily,7,align="right") %>% 
+  replace_na(0)
+
+plot_4_data %>% 
+  ggplot(aes(x = date, y = daily)) +
+  geom_col(color = "grey60", fill = "grey85") +
+  geom_line(aes(x = date, y = roll_mean),
+            color = "#9D2235",
+            size = 0.60) +
+  geom_col(data = filter(plot_4_data, date == dmy("16 June 2020")),
+           mapping = aes(x = date, y = daily),
+           color = "gray85",
+           fill = "#C8102E") +
+  scale_x_date(date_labels = "%b%d",
+               date_breaks = "2 weeks") +
+  theme_test() +
+  annotate(geom = "text", x = mdy("Jun 16 2020"), y = 228, label = "Missouri reopened\n16 June 2020", color = "#C8102E", fill = "C8102E") +
+  labs(x = NULL, y = "Daily New Cases")
 
 
