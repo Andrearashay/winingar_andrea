@@ -50,7 +50,7 @@ confirmed_made_date_column <- confirmed_import %>%
                names_to = 'date', 
                values_to = 'confirmed') %>% 
   mutate(date = dmy(date)) %>% 
-  filter(date <= dmy(first_us_case))
+  filter(date >= dmy(first_us_case))
 confirmed_made_date_column
 
 deaths_made_date_column <- deaths_import %>% 
@@ -58,7 +58,7 @@ deaths_made_date_column <- deaths_import %>%
                names_to = 'date',
                values_to = 'deaths') %>% 
   mutate(date = dmy(date)) %>% 
-  filter(date <= dmy(first_us_case))
+  filter(date >= dmy(first_us_case))
 deaths_made_date_column
 
 
@@ -104,16 +104,48 @@ covid_combined_regions %>%
 
 ### Plot 2
 
+# make data with only mo confirmed
+mo_confirmed <- confirmed_made_date_column %>%  
+  filter(State == 'MO', date >= dmy(first_mo_case))
+mo_confirmed
 
+# fix county names
+mo_counties_renamed <- mo_confirmed %>% 
+  mutate(`County Name` = str_replace(`County Name`, " County$", ""),
+         `County Name` = str_replace(`County Name`, "^Jackson ", "")) %>% 
+  group_by(`County Name`, date) %>% 
+  rename('County' = `County Name`) %>% 
+  summarise(total_cases = sum(confirmed, na.rm=TRUE))
+mo_counties_renamed
 
+# Import semo_counties and reduce to needed columns
+semo_counties_import <- read_csv(here('data', 'semo_county_enrollment.csv'), skip = 1) %>% 
+  rename('County' = X1)
+semo_counties_import
+semo_counties <- semo_counties_import %>% 
+  select(County, `2019`)
+semo_counties
 
+# make changes to semo county data
+semo_counties_fixed <- semo_counties %>% 
+  mutate(`County`=str_replace(`County`,"De Kalb", "DeKalb"),
+         `County`=str_replace(`County`,"^Sainte ","Ste\\. "),
+         `County`=str_replace(`County`,"^Saint ","St\\. "),
+         `County`=str_replace(`County`,"^St. Louis City$","City of St. Louis"))
+semo_counties_fixed
 
+# merge by left_join
+plot_2_data <- left_join(semo_counties_fixed, mo_counties_renamed)
+plot_2_data
 
-
-
-
-
-
+# plot 2
+plot_2_data %>% 
+  ggplot() +
+  geom_line(aes(x = date, y = total_cases, color=County)) +
+  labs(x = NULL, y = "Total Confirmed Cases") +
+  gghighlight(`2019` >= 200, use_direct_label = FALSE) +
+  scale_x_date(date_labels = "%d %b") + 
+  theme_test()
 
 
 
